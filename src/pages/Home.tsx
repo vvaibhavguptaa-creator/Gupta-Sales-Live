@@ -1,5 +1,6 @@
 import HeroSequence from '../components/HeroSequence';
 import BrandGalaxy from '../components/BrandGalaxy';
+import ProductShowcase from '../components/ProductShowcase';
 import ProductCard from '../components/ProductCard';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -41,6 +42,7 @@ const Home = () => {
             <Navbar />
             <HeroSequence />
             <BrandGalaxy />
+            <ProductShowcase />
 
             <section className="py-24 px-6 container mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16">
