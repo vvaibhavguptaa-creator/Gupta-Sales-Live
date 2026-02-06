@@ -1,4 +1,5 @@
 import HeroSequence from '../components/HeroSequence';
+import BrandGalaxy from '../components/BrandGalaxy';
 import ProductCard from '../components/ProductCard';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -39,6 +40,7 @@ const Home = () => {
         <div className="bg-primary min-h-screen">
             <Navbar />
             <HeroSequence />
+            <BrandGalaxy />
 
             <section className="py-24 px-6 container mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16">
