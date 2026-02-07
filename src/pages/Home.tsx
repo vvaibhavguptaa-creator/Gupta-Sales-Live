@@ -41,10 +41,16 @@ const featuredProducts = [
 const Home = () => {
     return (
         <div className="bg-primary min-h-screen">
-            <Hero />
+            <section id="home">
+                <Hero />
+            </section>
             <BrandTicker />
-            <Manifesto />
-            <ProductShowcase />
+            <section id="legacy">
+                <Manifesto />
+            </section>
+            <section id="collection">
+                <ProductShowcase />
+            </section>
             <BrandGalaxy />
             <ServicesBento />
 

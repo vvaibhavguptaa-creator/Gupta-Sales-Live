@@ -60,7 +60,9 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
           </Routes>
         </div>
-        <FooterSection />
+        <section id="contact">
+          <FooterSection />
+        </section>
         <WhatsAppButton />
       </Router>
     </ErrorBoundary>
