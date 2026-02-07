@@ -42,8 +42,8 @@ const Home = () => {
         <div className="bg-primary min-h-screen">
             <Hero />
             <Manifesto />
-            <BrandGalaxy />
             <ProductShowcase />
+            <BrandGalaxy />
             <ServicesBento />
 
             <section className="py-24 px-6 container mx-auto">
