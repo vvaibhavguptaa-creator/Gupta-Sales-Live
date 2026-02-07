@@ -29,7 +29,7 @@ const Navbar = () => {
             y: 0,
             transition: {
                 duration: 0.5,
-                ease: [0.22, 1, 0.36, 1] // Custom ease for smooth slide
+                ease: "easeInOut" // Fixed: Used standard string easing
             }
         },
         exit: {
