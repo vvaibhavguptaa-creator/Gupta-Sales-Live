@@ -4,7 +4,6 @@ import BrandGalaxy from '../components/BrandGalaxy';
 import ProductShowcase from '../components/ProductShowcase';
 import ServicesBento from '../components/ServicesBento';
 import ProductCard from '../components/ProductCard';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const featuredProducts = [
@@ -41,7 +40,6 @@ const featuredProducts = [
 const Home = () => {
     return (
         <div className="bg-primary min-h-screen">
-            <Navbar />
             <Hero />
             <Manifesto />
             <BrandGalaxy />
