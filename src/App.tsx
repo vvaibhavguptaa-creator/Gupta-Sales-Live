@@ -10,6 +10,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import ProductDetails from './pages/ProductDetails';
 import FooterSection from './components/FooterSection';
+import WhatsAppButton from './components/WhatsAppButton';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: Error | null }> {
   constructor(props: { children: ReactNode }) {
@@ -60,6 +61,7 @@ function App() {
           </Routes>
         </div>
         <FooterSection />
+        <WhatsAppButton />
       </Router>
     </ErrorBoundary>
   );
