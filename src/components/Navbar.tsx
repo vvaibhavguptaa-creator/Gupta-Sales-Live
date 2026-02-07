@@ -28,16 +28,14 @@ const Navbar = () => {
             opacity: 1,
             y: 0,
             transition: {
-                duration: 0.5,
-                ease: "easeInOut" // Fixed: Used standard string easing
+                duration: 0.5
             }
         },
         exit: {
             opacity: 0,
             y: "-100%",
             transition: {
-                duration: 0.4,
-                ease: "easeInOut"
+                duration: 0.4
             }
         }
     };
@@ -49,8 +47,7 @@ const Navbar = () => {
             y: 0,
             transition: {
                 delay: 0.1 * i + 0.3, // Stagger effect
-                duration: 0.5,
-                ease: "easeOut"
+                duration: 0.5
             }
         })
     };
