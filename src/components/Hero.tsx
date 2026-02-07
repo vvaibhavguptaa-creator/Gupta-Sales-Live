@@ -1,53 +1,114 @@
+
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const Hero = () => {
-    return (
-        <section className="relative h-screen flex items-center justify-center overflow-hidden">
-            {/* Background Image/Video Placeholder */}
-            <div className="absolute inset-0 z-0">
-                <div className="w-full h-full bg-primary relative">
-                    <div className="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/30 to-primary"></div>
-                    {/* You would typically use an img tag here with object-cover */}
-                    <img
-                        src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop"
-                        alt="Luxury Interior"
-                        className="w-full h-full object-cover opacity-60"
-                    />
-                </div>
-            </div>
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-            <div className="relative z-10 container mx-auto px-6 text-center">
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            setMousePosition({
+                x: e.clientX,
+                y: e.clientY
+            });
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+        };
+    }, []);
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.3
+            }
+        }
+    };
+
+    const letterVariants: any = {
+        hidden: { opacity: 0, y: 50 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 1.5,
+                ease: [0.2, 0.65, 0.3, 0.9]
+            }
+        }
+    };
+
+    const subtitleVariants: any = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                duration: 1.5,
+                delay: 1.8,
+                ease: "easeOut"
+            }
+        }
+    };
+
+    const titleText = "GUPTA SALES";
+
+    return (
+        <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-[#050505] cursor-none md:cursor-default">
+
+            {/* Spotlight Effect Background */}
+            <div
+                className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-300"
+                style={{
+                    background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255,255,255,0.06), transparent 40%)`
+                }}
+            />
+
+            <div className="relative z-10 text-center px-4">
+                {/* Main Title - Staggered Letters */}
                 <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-6 tracking-tight"
+                    className="text-5xl md:text-8xl lg:text-9xl font-serif text-white font-bold tracking-tight mb-6"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
                 >
-                    Elevate Your <span className="text-accent italic">Living</span>
+                    {titleText.split('').map((char, index) => (
+                        <motion.span key={index} variants={letterVariants} className="inline-block">
+                            {char === " " ? "\u00A0" : char}
+                        </motion.span>
+                    ))}
                 </motion.h1>
 
+                {/* Subtitle */}
                 <motion.p
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                    className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-light"
+                    className="text-xs md:text-sm text-yellow-500 uppercase tracking-[0.3em] font-sans font-medium"
+                    variants={subtitleVariants}
+                    initial="hidden"
+                    animate="visible"
                 >
-                    Discover a curated collection of exquisite furniture designed to transform your space into a sanctuary of style.
+                    Curating Lifestyles Since 1995
                 </motion.p>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                >
-                    <a
-                        href="/showroom"
-                        className="inline-block px-10 py-4 bg-accent text-primary font-semibold text-sm uppercase tracking-widest hover:bg-white hover:text-primary transition-all duration-300"
-                    >
-                        Explore Collection
-                    </a>
-                </motion.div>
             </div>
+
+            {/* Scroll Indicator */}
+            <motion.div
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2.5, duration: 1 }}
+            >
+                <div className="w-[1px] h-16 bg-gradient-to-b from-transparent via-white/50 to-transparent relative overflow-hidden">
+                    <motion.div
+                        className="absolute top-0 left-0 w-full h-1/2 bg-white"
+                        animate={{ y: [0, 64, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                </div>
+            </motion.div>
         </section>
     );
 };
