@@ -1,4 +1,5 @@
 import Hero from '../components/Hero';
+import BrandTicker from '../components/BrandTicker';
 import Manifesto from '../components/Manifesto';
 import BrandGalaxy from '../components/BrandGalaxy';
 import ProductShowcase from '../components/ProductShowcase';
@@ -40,6 +41,7 @@ const Home = () => {
     return (
         <div className="bg-primary min-h-screen">
             <Hero />
+            <BrandTicker />
             <Manifesto />
             <ProductShowcase />
             <BrandGalaxy />
