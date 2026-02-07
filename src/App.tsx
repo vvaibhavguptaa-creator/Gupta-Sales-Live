@@ -6,18 +6,20 @@ import ServicesBento from './components/ServicesBento';
 
 function App() {
   return (
-    <div className="bg-[#050505] min-h-screen w-full overflow-x-hidden text-white selection:bg-yellow-500 selection:text-black">
+    <div className="bg-[#050505] min-h-screen w-full overflow-x-hidden text-white">
 
-      {/* Navigation */}
       <Navbar />
 
-      {/* The Luxury Sequence */}
-      <main className="flex flex-col">
-        <Hero />
-        <Manifesto />
-        <ProductShowcase />
-        <ServicesBento />
-      </main>
+      {/* DEBUG MODE: We commented these out to see which one is the killer */}
+      <div className="pt-32 text-center">
+        <h1 className="text-4xl text-yellow-500 font-serif">SAFE MODE ACTIVE</h1>
+        <p className="text-gray-400 mt-4">If you see this, the App is healthy.</p>
+
+        {/* <Hero /> */}
+        {/* <Manifesto /> */}
+        {/* <ProductShowcase /> */}
+        {/* <ServicesBento /> */}
+      </div>
 
     </div>
   );
