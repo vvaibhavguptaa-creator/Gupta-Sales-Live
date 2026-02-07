@@ -3,6 +3,7 @@ import BrandTicker from '../components/BrandTicker';
 import Manifesto from '../components/Manifesto';
 import BrandGalaxy from '../components/BrandGalaxy';
 import ProductShowcase from '../components/ProductShowcase';
+import Services from '../components/Services';
 import ServicesBento from '../components/ServicesBento';
 import ProductCard from '../components/ProductCard';
 
@@ -87,6 +88,8 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
+            <Services />
         </div>
     );
 };
