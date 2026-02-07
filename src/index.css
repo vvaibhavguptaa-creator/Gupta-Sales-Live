@@ -16,11 +16,21 @@
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    /* Stops left-right scrolling */
     overflow-y: auto;
-    /* Forces up-down scrolling */
     height: auto;
-    /* Prevents the body from locking up */
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 50;
   }
 
   /* Keep your Heading Fonts settings too! */

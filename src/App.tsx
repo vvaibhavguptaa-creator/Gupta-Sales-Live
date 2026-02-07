@@ -2,6 +2,7 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Spotlight from './components/Spotlight';
 import SmoothScroll from './components/SmoothScroll';
 import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
@@ -50,9 +51,9 @@ function App() {
       <Router>
         <SmoothScroll />
         <ScrollToTop />
+        <Spotlight />
         <Navbar />
-        {/* Global Film Grain Overlay */}
-        <div className="fixed inset-0 pointer-events-none z-[1] opacity-20 mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }}></div>
+
         <div className="min-h-screen relative z-10">
           <Routes>
             <Route path="/" element={<Home />} />

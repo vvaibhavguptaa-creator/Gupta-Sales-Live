@@ -53,7 +53,7 @@ const Manifesto = () => {
                             <span className="text-yellow-500 uppercase tracking-[0.3em] text-sm font-medium">Since 1995</span>
                         </div>
 
-                        <h2 className="text-5xl md:text-7xl font-serif leading-[1.1]">
+                        <h2 className="text-6xl md:text-8xl font-serif leading-[1.1]">
                             Building <br />
                             <span className="italic text-white/60">Legacies.</span>
                         </h2>
