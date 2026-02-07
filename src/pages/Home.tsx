@@ -6,19 +6,22 @@ import Services from '../components/Services';
 
 const Home = () => {
     return (
-        <div className="relative z-10 min-h-screen">
+        <div className="relative z-10 min-h-screen bg-[#050505]">
             <section id="home">
                 <Hero />
             </section>
-            <BrandTicker />
-            <section id="legacy" className="py-0">
+            <div className="-mt-1 relative z-10">
+                <BrandTicker />
+            </div>
+            <section id="legacy" className="-mt-1 bg-[#050505]">
                 <Manifesto />
             </section>
-            <section id="collection" className="py-12">
+            <section id="collection" className="-mt-1 bg-[#050505]">
                 <ProductShowcase />
             </section>
-
-            <Services />
+            <div className="-mt-1 bg-[#050505]">
+                <Services />
+            </div>
         </div>
     );
 };
