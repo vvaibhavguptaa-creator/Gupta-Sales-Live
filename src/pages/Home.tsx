@@ -4,7 +4,6 @@ import BrandGalaxy from '../components/BrandGalaxy';
 import ProductShowcase from '../components/ProductShowcase';
 import ServicesBento from '../components/ServicesBento';
 import ProductCard from '../components/ProductCard';
-import Footer from '../components/Footer';
 
 const featuredProducts = [
     {
@@ -86,8 +85,6 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-
-            <Footer />
         </div>
     );
 };

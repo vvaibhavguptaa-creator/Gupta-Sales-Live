@@ -9,6 +9,7 @@ import Showroom from './pages/Showroom';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import ProductDetails from './pages/ProductDetails';
+import FooterSection from './components/FooterSection';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: Error | null }> {
   constructor(props: { children: ReactNode }) {
@@ -58,6 +59,7 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
           </Routes>
         </div>
+        <FooterSection />
       </Router>
     </ErrorBoundary>
   );
