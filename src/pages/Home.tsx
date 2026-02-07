@@ -1,4 +1,5 @@
 import Hero from '../components/Hero';
+import Manifesto from '../components/Manifesto';
 import BrandGalaxy from '../components/BrandGalaxy';
 import ProductShowcase from '../components/ProductShowcase';
 import ServicesBento from '../components/ServicesBento';
@@ -42,6 +43,7 @@ const Home = () => {
         <div className="bg-primary min-h-screen">
             <Navbar />
             <Hero />
+            <Manifesto />
             <BrandGalaxy />
             <ProductShowcase />
             <ServicesBento />
