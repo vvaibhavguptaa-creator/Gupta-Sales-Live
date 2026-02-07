@@ -6,7 +6,7 @@ import Services from '../components/Services';
 
 const Home = () => {
     return (
-        <div className="bg-primary min-h-screen">
+        <div className="relative z-10 min-h-screen">
             <section id="home">
                 <Hero />
             </section>

@@ -51,7 +51,9 @@ function App() {
         <SmoothScroll />
         <ScrollToTop />
         <Navbar />
-        <div className="min-h-screen">
+        {/* Global Film Grain Overlay */}
+        <div className="fixed inset-0 pointer-events-none z-[1] opacity-20 mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }}></div>
+        <div className="min-h-screen relative z-10">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/showroom" element={<Showroom />} />
