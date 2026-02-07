@@ -1,10 +1,17 @@
-// NO IMPORTS AT ALL
-export default function App() {
+function App() {
   return (
-    <div style={{ background: 'black', height: '100vh', color: 'white', padding: '50px' }}>
-      <h1>DIAGNOSTIC MODE</h1>
-      <p>If you see this, React is alive.</p>
-      <p>If you see a Red Box at the top, send me a screenshot of it.</p>
+    <div style={{
+      backgroundColor: 'red',
+      height: '100vh',
+      width: '100vw',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: 'white'
+    }}>
+      <h1 style={{ fontSize: '40px' }}>WE ARE BACK</h1>
     </div>
   );
 }
+
+export default App;
