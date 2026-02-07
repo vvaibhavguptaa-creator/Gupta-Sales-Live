@@ -1,30 +1,29 @@
-// Forcing update
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
 import Navbar from './components/Navbar';
-import SmoothScroll from './components/SmoothScroll';
-import ScrollToTop from './components/ScrollToTop';
-import Home from './pages/Home';
-import Showroom from './pages/Showroom';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import ProductDetails from './pages/ProductDetails';
+import Hero from './components/Hero';
+import Manifesto from './components/Manifesto';
+import ProductShowcase from './components/ProductShowcase';
+import ServicesBento from './components/ServicesBento';
+// import SmoothScroll from './components/SmoothScroll'; // DISABLED FOR NOW
 
 function App() {
   return (
-    <Router>
-      <SmoothScroll />
-      <ScrollToTop />
+    // THE FIX: Changed 'h-screen' to 'min-h-screen'. 
+    // Added 'overflow-x-hidden' to stop side-scrolling, but allow down-scrolling.
+    <div className="bg-[#050505] min-h-screen w-full overflow-x-hidden text-white selection:bg-yellow-500 selection:text-black">
+
+      {/* Navbar sits on top */}
       <Navbar />
-      <div className="min-h-screen">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/showroom" element={<Showroom />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-        </Routes>
-      </div>
-    </Router>
+
+      {/* The Sections */}
+      <main className="flex flex-col">
+        <Hero />
+        <Manifesto />
+        <ProductShowcase />
+        <ServicesBento />
+      </main>
+
+    </div>
   );
 }
 
