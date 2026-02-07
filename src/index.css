@@ -5,7 +5,9 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: smooth !important;
+    scroll-padding-top: 100px;
+    /* Prevents Fixed Navbar from covering section titles */
     overflow-y: scroll;
     /* CHANGED: 'scroll' forces the bar to appear */
   }

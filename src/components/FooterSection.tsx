@@ -38,7 +38,7 @@ const FooterSection = () => {
                             </div>
                             <div className="flex items-center text-gray-400">
                                 <FaPhone className="mr-3 text-white" />
-                                <p>+91 98765 43210</p>
+                                <p>Contact details coming soon</p>
                             </div>
                             <button className="mt-4 px-6 py-3 border border-white/20 hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2 group text-sm uppercase tracking-wider font-semibold">
                                 Get Directions <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
