@@ -1,142 +1,62 @@
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, Variants } from 'framer-motion';
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
+
+const ManifestoItem = ({ children, progress, range }: { children: string, progress: MotionValue<number>, range: [number, number] }) => {
+    const opacity = useTransform(progress, range, [0.2, 1]);
+    const y = useTransform(progress, range, [20, 0]);
+    const filter = useTransform(progress, range, ["blur(4px)", "blur(0px)"]);
+
+    return (
+        <motion.span
+            style={{ opacity, y, filter }}
+            className="mr-3 inline-block transition-colors duration-200"
+        >
+            {children}
+        </motion.span>
+    );
+};
 
 const Manifesto = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start end", "end start"]
+        offset: ["start 0.9", "end 0.5"]
     });
 
-    // Parallax effect for the image
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-    // Opacity fade for the watermark
-    const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
-
-    // Word-by-word animation variants
-    const containerVariants: Variants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.015, // Very tight stagger for fluid "wave"
-                delayChildren: 0.1
-            }
-        }
-    };
-
-    const wordVariants: Variants = {
-        hidden: {
-            opacity: 0,
-            y: 20,
-            filter: "blur(8px)"
-        },
-        visible: {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            transition: {
-                duration: 0.8,
-                // ease default is fine
-            }
-        }
-    };
-
-    const AnimatedText = ({ text, className, italic = false }: { text: string, className?: string, italic?: boolean }) => {
-        const words = text.split(" ");
-        return (
-            <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-10%" }}
-                className={`${className} flex flex-wrap`}
-            >
-                {words.map((word, i) => (
-                    <motion.span
-                        key={i}
-                        variants={wordVariants}
-                        className={`inline-block mr-[0.25em] ${italic ? 'italic text-white/60' : ''}`}
-                    >
-                        {word}
-                    </motion.span>
-                ))}
-            </motion.div>
-        );
-    };
+    const text = "Thirty years of redefining spaces. We don't just sell tiles; we curate the backdrop of your life's most intimate moments. From the morning ritual to the evening unwind, our surfaces are the silent witnesses to your legacy.";
+    const words = text.split(" ");
 
     return (
-        <section ref={containerRef} className="relative min-h-screen bg-black text-white py-24 mt-0 overflow-hidden">
-            <div className="container mx-auto px-6 h-full flex flex-col md:flex-row gap-20 relative z-10">
+        <section ref={containerRef} className="relative bg-black py-40 px-6 min-h-[150vh]">
+            <div className="container mx-auto max-w-6xl">
+                <div className="sticky top-40">
+                    <h2 className="text-4xl md:text-7xl lg:text-[5vw] font-serif font-light leading-[1.1] text-white tracking-tight flex flex-wrap">
+                        {words.map((word, i) => {
+                            const start = i / words.length;
+                            const end = start + (1 / words.length);
+                            return (
+                                <ManifestoItem key={i} progress={scrollYProgress} range={[start, end]}>
+                                    {word}
+                                </ManifestoItem>
+                            );
+                        })}
+                    </h2>
 
-                {/* Left Column: Sticky Image */}
-                <div className="w-full md:w-1/2 relative h-full">
-                    <div className="sticky top-24 h-[80vh] w-full overflow-hidden rounded-sm">
-                        <motion.img
-                            style={{ y }}
-                            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"
-                            alt="Luxury Interior"
-                            className="w-full h-[120%] object-cover object-center"
-                        />
-                        <div className="absolute inset-0 bg-black/10" />
-                    </div>
-                </div>
-
-                {/* Right Column: Scrolling Text */}
-                <div className="w-full md:w-1/2 flex flex-col justify-center space-y-16 py-12 relative">
-
-                    {/* Layered Watermark Typography */}
                     <motion.div
-                        style={{ opacity }}
-                        className="absolute top-0 -left-20 text-[10rem] md:text-[15rem] leading-none font-serif font-bold text-white/[0.03] pointer-events-none select-none whitespace-nowrap z-0"
+                        style={{ opacity: useTransform(scrollYProgress, [0.8, 1], [0, 1]) }}
+                        className="mt-12 flex items-center gap-4"
                     >
-                        30 YEARS
+                        <div className="h-[1px] w-20 bg-yellow-500" />
+                        <span className="text-yellow-500 uppercase tracking-widest text-sm font-medium">
+                            Gupta Sales • Est. 1995
+                        </span>
                     </motion.div>
-
-                    <div className="relative z-10 space-y-12">
-                        <motion.div
-                            initial={{ scaleX: 0, originX: 0 }}
-                            whileInView={{ scaleX: 1 }}
-                            transition={{ duration: 1, delay: 0.2 }}
-                            viewport={{ once: true }}
-                            className="flex items-center gap-4"
-                        >
-                            <div className="h-[1px] w-12 bg-yellow-500" />
-                            <span className="text-yellow-500 uppercase tracking-[0.3em] text-sm font-medium">Since 1995</span>
-                        </motion.div>
-
-                        <div className="text-6xl md:text-8xl font-serif leading-[1.1]">
-                            <AnimatedText text="Building" />
-                            <AnimatedText text="Legacies." italic />
-                        </div>
-
-                        <div className="space-y-8">
-                            <AnimatedText
-                                text="We don't just supply materials; we curate the foundation of your dreams. For three decades, Gupta Sales has stood as a beacon of quality, transforming houses into sanctuaries with our premium range of tiles and sanitaryware."
-                                className="text-xl text-gray-400 leading-relaxed font-light max-w-lg"
-                            />
-
-                            <AnimatedText
-                                text="Our commitment goes beyond commerce. It is about the art of living well, the precision of design, and the enduring promise of excellence."
-                                className="text-xl text-gray-400 leading-relaxed font-light max-w-lg"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-2 gap-12 border-t border-white/10 pt-12 relative z-10">
-                        <div>
-                            <AnimatedText text="500+" className="text-5xl font-serif text-white mb-2" />
-                            <p className="text-gray-500 text-xs uppercase tracking-widest fade-in">Projects Completed</p>
-                        </div>
-                        <div>
-                            <AnimatedText text="100%" className="text-5xl font-serif text-white mb-2" />
-                            <p className="text-gray-500 text-xs uppercase tracking-widest fade-in">Client Satisfaction</p>
-                        </div>
-                    </div>
                 </div>
             </div>
+
+            {/* Background Texture/Noise for "High Level" feel */}
+            <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay" />
         </section>
     );
 };

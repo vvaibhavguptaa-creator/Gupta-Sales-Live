@@ -1,6 +1,6 @@
 
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 const items = [
     {
@@ -8,190 +8,89 @@ const items = [
         title: 'Porcelain & Vitrified',
         category: 'SURFACES',
         image: 'https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2000&auto=format&fit=crop',
-        video: 'https://videos.pexels.com/video-files/3773487/3773487-uhd_2560_1440_25fps.mp4',
-        colSpan: 'md:col-span-2'
     },
     {
         id: 2,
         title: 'Luxury Faucets',
         category: 'BATH FITTINGS',
         image: 'https://images.unsplash.com/photo-1584622781867-1c58c3eeb966?q=80&w=2000&auto=format&fit=crop',
-        video: 'https://videos.pexels.com/video-files/7578544/7578544-uhd_2560_1440_30fps.mp4',
-        colSpan: 'md:col-span-1'
     },
     {
         id: 3,
         title: 'Smart Sanitaryware',
         category: 'WELLNESS',
         image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2000&auto=format&fit=crop',
-        video: 'https://videos.pexels.com/video-files/6774643/6774643-uhd_2560_1440_25fps.mp4',
-        colSpan: 'md:col-span-1'
     },
     {
         id: 4,
         title: 'Designer Showers',
         category: 'EXPERIENCE',
         image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2000&auto=format&fit=crop',
-        video: 'https://videos.pexels.com/video-files/6636253/6636253-uhd_2560_1440_25fps.mp4',
-        colSpan: 'md:col-span-2'
     }
 ];
 
-const ProductCard = ({ item, index }: { item: typeof items[0], index: number }) => {
-    const [isHovered, setIsHovered] = useState(false);
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const cardRef = useRef<HTMLDivElement>(null);
-
-    // 3D Tilt Logic
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
-
-    const mouseX = useSpring(x, { stiffness: 150, damping: 15 });
-    const mouseY = useSpring(y, { stiffness: 150, damping: 15 });
-
-    const rotateX = useTransform(mouseY, [-0.5, 0.5], ["7deg", "-7deg"]);
-    const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-7deg", "7deg"]);
-
-    // Glare position moves opposite to rotation
-    const glareX = useTransform(mouseX, [-0.5, 0.5], ["0%", "100%"]);
-    const glareY = useTransform(mouseY, [-0.5, 0.5], ["0%", "100%"]);
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        const rect = cardRef.current?.getBoundingClientRect();
-        if (rect) {
-            const width = rect.width;
-            const height = rect.height;
-            const mouseXVal = e.clientX - rect.left;
-            const mouseYVal = e.clientY - rect.top;
-
-            // Calculate normalized position (-0.5 to 0.5)
-            const xPct = mouseXVal / width - 0.5;
-            const yPct = mouseYVal / height - 0.5;
-
-            x.set(xPct);
-            y.set(yPct);
-        }
-    };
-
-    const handleMouseEnter = () => {
-        setIsHovered(true);
-        if (videoRef.current) {
-            videoRef.current.play();
-        }
-    };
-
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-        x.set(0);
-        y.set(0);
-        if (videoRef.current) {
-            videoRef.current.pause();
-            videoRef.current.currentTime = 0;
-        }
-    };
-
+const ProductCard = ({ item }: { item: typeof items[0] }) => {
     return (
         <motion.div
-            ref={cardRef}
-            style={{
-                rotateX,
-                rotateY,
-                transformStyle: "preserve-3d",
-                perspective: 1000
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            className={`group relative h-[450px] rounded-sm bg-zinc-900 ${item.colSpan}`}
-            onMouseMove={handleMouseMove}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            className="group relative h-[60vh] min-w-[40vw] md:min-w-[30vw] overflow-hidden bg-neutral-900"
+            whileHover={{ scale: 0.98 }}
+            transition={{ duration: 0.5 }}
         >
-            {/* Inner Content Container - transformed for depth */}
-            <div className="absolute inset-0 overflow-hidden rounded-sm border border-white/10" style={{ transform: "translateZ(0px)" }}>
+            <motion.img
+                src={item.image}
+                alt={item.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40"
+            />
 
-                {/* Background Image (Default) - Wrapped in Clip Path Reveal */}
-                <motion.div
-                    initial={{ clipPath: "inset(0 0 100% 0)" }}
-                    whileInView={{ clipPath: "inset(0 0 0% 0)" }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute inset-0 w-full h-full"
-                >
-                    <motion.img
-                        src={item.image}
-                        alt={item.title}
-                        animate={{
-                            opacity: isHovered ? 0 : 0.7,
-                            scale: isHovered ? 1.1 : 1
-                        }}
-                        transition={{ duration: 0.7 }}
-                        className="w-full h-full object-cover transition-transform duration-700"
-                    />
-                </motion.div>
-
-                {/* Background Video (Hover) */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: isHovered ? 0.6 : 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute inset-0 w-full h-full"
-                >
-                    <video
-                        ref={videoRef}
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover scale-110" // Slight scale to prevent edge gaps during tilt
-                    >
-                        <source src={item.video} type="video/mp4" />
-                    </video>
-                </motion.div>
-
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
-
-                {/* Content - Lifted off the card for 3D depth */}
-                <div
-                    className="absolute bottom-0 left-0 p-8 w-full z-10"
-                    style={{ transform: "translateZ(40px)" }} // 3D Lift
-                >
-                    <p className="text-yellow-500 text-[10px] font-bold tracking-[0.25em] mb-3 uppercase">
-                        {item.category}
-                    </p>
-                    <h3 className="text-3xl md:text-4xl font-serif text-white group-hover:text-yellow-500 transition-colors duration-300">
-                        {item.title}
-                    </h3>
-
-                    {/* Explore Link (Appears on Hover) */}
-                    <div className="h-0 overflow-hidden group-hover:h-auto transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 mt-4">
-                        <span className="text-white/70 text-xs tracking-widest uppercase border-b border-white/30 pb-0.5">Explore Collection</span>
-                    </div>
-                </div>
-
-                {/* Dynamic Glare Overlay */}
-                <motion.div
-                    style={{
-                        background: `radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.15) 0%, transparent 60%)`,
-                        opacity: isHovered ? 1 : 0
-                    }}
-                    className="absolute inset-0 z-20 pointer-events-none transition-opacity duration-300"
-                />
+            <div className="absolute inset-0 p-8 flex flex-col justify-end z-20">
+                <span className="text-yellow-500 text-xs font-bold tracking-[0.2em] mb-2 uppercase translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                    {item.category}
+                </span>
+                <h3 className="text-4xl font-serif text-white translate-y-0 group-hover:-translate-y-2 transition-transform duration-500">
+                    {item.title}
+                </h3>
             </div>
 
+            <div className="absolute inset-0 border border-white/10 group-hover:border-white/30 transition-colors duration-500 z-30 pointer-events-none" />
         </motion.div>
     );
 };
 
 const ProductShowcase = () => {
+    const targetRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: targetRef,
+    });
+
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-55%"]);
+    const smoothX = useSpring(x, { stiffness: 100, damping: 20 });
+
     return (
-        <section className="bg-black py-24 px-6 mt-0 perspective-[2000px]">
-            <div className="container mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {items.map((item, index) => (
-                        <ProductCard key={item.id} item={item} index={index} />
+        <section ref={targetRef} className="relative h-[300vh] bg-black">
+            <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+
+                {/* Section Title */}
+                <div className="absolute top-12 left-6 md:left-12 z-20">
+                    <div className="h-[1px] w-20 bg-white/20 mb-4" />
+                    <h2 className="text-white text-3xl font-serif">Curated<br />Collections</h2>
+                </div>
+
+                <motion.div
+                    style={{ x: smoothX }}
+                    className="flex gap-12 pl-[10vw] pr-[10vw]"
+                >
+                    {items.map((item) => (
+                        <ProductCard key={item.id} item={item} />
                     ))}
+                    {/* Duplicate for length/visual balance if needed, or just let it scroll */}
+                </motion.div>
+
+                {/* Progress Bar */}
+                <div className="absolute bottom-12 left-6 right-6 h-[1px] bg-white/10 z-20">
+                    <motion.div
+                        style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
+                        className="h-full bg-yellow-500"
+                    />
                 </div>
             </div>
         </section>

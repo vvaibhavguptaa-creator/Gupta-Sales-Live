@@ -23,19 +23,11 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h4 className="text-lg font-semibold mb-6 text-white uppercase tracking-wider">Contact</h4>
+                        <h4 className="text-lg font-semibold mb-6 text-white uppercase tracking-wider">Location</h4>
                         <ul className="space-y-4 text-gray-400">
                             <li className="flex items-start">
                                 <MapPin className="w-5 h-5 mr-3 text-accent shrink-0" />
-                                <span>123 Luxury Avenue,<br />Design District, NY 10012</span>
-                            </li>
-                            <li className="flex items-center">
-                                <Phone className="w-5 h-5 mr-3 text-accent shrink-0" />
-                                <span>+1 (555) 123-4567</span>
-                            </li>
-                            <li className="flex items-center">
-                                <Mail className="w-5 h-5 mr-3 text-accent shrink-0" />
-                                <span>hello@guptasales.com</span>
+                                <span>Bikaner, Rajasthan<br />India</span>
                             </li>
                         </ul>
                     </div>

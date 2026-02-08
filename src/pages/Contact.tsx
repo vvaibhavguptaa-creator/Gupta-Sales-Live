@@ -15,12 +15,8 @@ const Contact = () => {
 
                         <div className="space-y-6">
                             <div>
-                                <h3 className="text-xl font-serif mb-2">Showroom Address</h3>
-                                <p className="text-gray-400">123 Luxury Avenue, Design District<br />New York, NY 10012</p>
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-serif mb-2">Contact Info</h3>
-                                <p className="text-gray-400">Phone: +1 (555) 123-4567<br />Email: hello@guptasales.com</p>
+                                <h3 className="text-xl font-serif mb-2">Showroom Location</h3>
+                                <p className="text-gray-400">Bikaner, Rajasthan<br />India</p>
                             </div>
                             <div>
                                 <h3 className="text-xl font-serif mb-2">Opening Hours</h3>

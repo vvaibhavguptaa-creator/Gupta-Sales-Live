@@ -1,83 +1,101 @@
 
-import { FaDraftingCompass, FaTruck, FaHandshake } from 'react-icons/fa';
-import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { HiHome, HiSparkles, HiOfficeBuilding, HiColorSwatch } from 'react-icons/hi';
 
-const ServiceCard = ({ service, index }: { service: any, index: number }) => {
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    const handleMouseMove = ({ currentTarget, clientX, clientY }: React.MouseEvent) => {
-        const { left, top } = currentTarget.getBoundingClientRect();
-        mouseX.set(clientX - left);
-        mouseY.set(clientY - top);
-    };
-
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="group relative p-8 rounded-sm border border-white/5 bg-white/[0.02] backdrop-blur-sm hover:bg-white/[0.05] transition-colors duration-500 overflow-hidden"
-            onMouseMove={handleMouseMove}
-        >
-            {/* Spotlight Effect */}
-            <motion.div
-                className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
-                style={{
-                    background: useMotionTemplate`
-                        radial-gradient(
-                            650px circle at ${mouseX}px ${mouseY}px,
-                            rgba(234, 179, 8, 0.15),
-                            transparent 80%
-                        )
-                    `,
-                }}
-            />
-
-            {/* Icon */}
-            <div className="relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-yellow-500/10 mb-8 border border-yellow-500/20 group-hover:scale-110 group-hover:border-yellow-500/50 transition-all duration-500">
-                <service.icon className="text-xl text-yellow-500" />
-            </div>
-
-            {/* Content */}
-            <h3 className="relative text-2xl font-serif text-white mb-4 group-hover:translate-x-2 transition-transform duration-300">
-                {service.title}
-            </h3>
-            <p className="relative text-gray-400 font-light leading-relaxed text-sm tracking-wide">
-                {service.description}
-            </p>
-        </motion.div>
-    );
-};
+const services = [
+    {
+        id: 1,
+        title: 'Residential',
+        description: 'Bespoke sanitaryware & surface solutions for luxury homes. Crafting personal sanctuaries with precision.',
+        icon: <HiHome className="text-3xl" />,
+        image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1200&auto=format&fit=crop'
+    },
+    {
+        id: 2,
+        title: 'Commercial',
+        description: 'High-durability, premium aesthetics for hotels and offices. Making a statement in every square foot.',
+        icon: <HiOfficeBuilding className="text-3xl" />,
+        image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop'
+    },
+    {
+        id: 3,
+        title: 'Architectural',
+        description: 'Technical consultation and surface specification. Partnering with architects to realize ambitious visions.',
+        icon: <HiColorSwatch className="text-3xl" />,
+        image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop'
+    },
+    {
+        id: 4,
+        title: 'Renovation',
+        description: 'Complete bath & kitchen transformation services. specialized in upgrading legacy spaces to modern standards.',
+        icon: <HiSparkles className="text-3xl" />,
+        image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1200&auto=format&fit=crop'
+    }
+];
 
 const Services = () => {
-    const services = [
-        {
-            icon: FaDraftingCompass,
-            title: "Design Consultation",
-            description: "Expert guidance to match your vision with the perfect materials. We collaborate intimately with your architects and interior designers to ensure cohesive aesthetics."
-        },
-        {
-            icon: FaTruck,
-            title: "Premium Supply",
-            description: "Direct sourcing from global heritage brands like Johnson, Nexion, and Grohe. Authentic quality guaranteed, delivered with the utmost care to your site."
-        },
-        {
-            icon: FaHandshake,
-            title: "The 30-Year Promise",
-            description: "A legacy of trust since 1995. We don't just sell products; we support you from selection to installation and beyond with dedicated after-sales support."
-        }
-    ];
+    const [activeId, setActiveId] = useState<number | null>(1); // Default open first
 
     return (
-        <section id="services" className="bg-[#050505] py-32 border-t border-white/5 relative overflow-hidden">
-            <div className="container mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {services.map((service, index) => (
-                        <ServiceCard key={index} service={service} index={index} />
-                    ))}
-                </div>
+        <section className="bg-black py-24 px-6 md:px-12 h-[80vh] flex flex-col justify-center">
+
+            <div className="flex flex-col md:flex-row h-full w-full gap-2 md:gap-4">
+                {services.map((service) => (
+                    <motion.div
+                        key={service.id}
+                        layout
+                        onMouseEnter={() => setActiveId(service.id)}
+                        className={`relative h-full rounded-lg overflow-hidden cursor-pointer border border-white/10 ${activeId === service.id ? 'flex-[3]' : 'flex-[1]'
+                            }`}
+                        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    >
+                        {/* Background Image - Only visible when active */}
+                        <AnimatePresence mode="wait">
+                            {activeId === service.id && (
+                                <motion.img
+                                    initial={{ opacity: 0, scale: 1.1 }}
+                                    animate={{ opacity: 0.4, scale: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                    src={service.image}
+                                    alt={service.title}
+                                    className="absolute inset-0 w-full h-full object-cover"
+                                />
+                            )}
+                        </AnimatePresence>
+
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent p-8 flex flex-col justify-end">
+                            {/* Icon - Always Visible */}
+                            <div className={`mb-4 ${activeId === service.id ? 'text-yellow-500' : 'text-gray-500'}`}>
+                                {service.icon}
+                            </div>
+
+                            {/* Title - Rotated when Vertical (inactive on mobile/desktop different) */}
+                            <motion.h3
+                                layout="position"
+                                className={`text-2xl md:text-4xl font-serif text-white font-medium mb-2 ${activeId !== service.id ? 'md:-rotate-90 md:origin-bottom-left md:translate-x-8 md:whitespace-nowrap' : ''
+                                    }`}
+                            >
+                                {service.title}
+                            </motion.h3>
+
+                            {/* Description - Only when active */}
+                            <AnimatePresence>
+                                {activeId === service.id && (
+                                    <motion.p
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="text-gray-400 text-sm md:text-base leading-relaxed max-w-md"
+                                    >
+                                        {service.description}
+                                    </motion.p>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
         </section>
     );

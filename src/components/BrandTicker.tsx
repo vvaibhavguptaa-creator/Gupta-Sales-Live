@@ -1,64 +1,87 @@
 
-import { motion } from 'framer-motion';
+import { useRef } from "react";
+import {
+    motion,
+    useScroll,
+    useSpring,
+    useTransform,
+    useMotionValue,
+    useVelocity,
+    useAnimationFrame
+} from "framer-motion";
+import { wrap } from "@motionone/utils";
 
-const brands = [
-    'KOHLER',
-    'JAQUAR',
-    'GROHE',
-    'KAJARIA',
-    'SOMANY',
-    'HINDWARE',
-    'CERA',
-    'ASIAN PAINTS',
-];
+interface ParallaxProps {
+    children: string;
+    baseVelocity: number;
+}
+
+function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
+    const baseX = useMotionValue(0);
+    const { scrollY } = useScroll();
+    const scrollVelocity = useVelocity(scrollY);
+    const smoothVelocity = useSpring(scrollVelocity, {
+        damping: 50,
+        stiffness: 400
+    }); const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
+        clamp: false
+    });
+
+    /**
+     * This is a magic wrapping for the length of the text - you
+     * have to replace for wrapping that works for you or dynamically
+     * calculate
+     */
+    const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
+
+    const directionFactor = useRef<number>(1);
+    useAnimationFrame((t, delta) => {
+        let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
+
+        /**
+         * This is what changes the direction of the scroll once we
+         * switch scrolling directions.
+         */
+        if (velocityFactor.get() < 0) {
+            directionFactor.current = -1;
+        } else if (velocityFactor.get() > 0) {
+            directionFactor.current = 1;
+        }
+
+        moveBy += directionFactor.current * moveBy * velocityFactor.get();
+
+        baseX.set(baseX.get() + moveBy);
+    });
+
+    /**
+     * The number of times to repeat the child text should be dynamically calculated
+     * based on the size of the text and viewport. Likewise, the x motion value is
+     * currently wrapped between -20 and -45% - this 25% is derived from the fact
+     * that we have four children (100% / 4). This would also want deriving from the
+     * dynamically generated number of children.
+     */
+    return (
+        <div className="parallax">
+            <motion.div className="scroller flex flex-nowrap whitespace-nowrap" style={{ x }}>
+                <span className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-semibold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/20 select-none hover:text-yellow-500 transition-colors duration-500 cursor-default">{children}</span>
+                <span className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-semibold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/20 select-none hover:text-yellow-500 transition-colors duration-500 cursor-default">{children}</span>
+                <span className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-semibold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/20 select-none hover:text-yellow-500 transition-colors duration-500 cursor-default">{children}</span>
+                <span className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-semibold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/20 select-none hover:text-yellow-500 transition-colors duration-500 cursor-default">{children}</span>
+            </motion.div>
+        </div>
+    );
+}
 
 const BrandTicker = () => {
     return (
-        <section className="bg-black border-y border-white/10 py-6 overflow-hidden flex relative z-10 select-none">
-            {/* 
-                Seamless Loop Logic:
-                1. We duplicate the list to create 2 identical sets.
-                2. We animate the entire track to move -50% (exactly the width of one set).
-                3. Since the second set is identical to the first, the reset to 0% is invisible.
-            */}
-            <motion.div
-                className="flex items-center gap-16 pr-16" // pr-16 to maintain gap at the end of the loop
-                animate={{
-                    x: "-50%",
-                }}
-                transition={{
-                    duration: 40, // Slower, more elegant speed
-                    repeat: Infinity,
-                    ease: "linear",
-                }}
-                style={{
-                    width: "fit-content",
-                }}
-            >
-                {/* First Set */}
-                {brands.map((brand, index) => (
-                    <span
-                        key={index}
-                        className="text-2xl md:text-3xl font-sans font-bold text-gray-800 hover:text-white transition-colors duration-300 cursor-pointer uppercase tracking-widest whitespace-nowrap"
-                    >
-                        {brand}
-                    </span>
-                ))}
+        <section className="bg-black py-24 overflow-hidden relative z-10 border-y border-white/5">
+            <ParallaxText baseVelocity={-2}>Kohler Jaquar Grohe Kajaria</ParallaxText>
+            <div className="h-12" /> {/* Gap */}
+            <ParallaxText baseVelocity={2}>Somany Hindware Cera AsianPaints</ParallaxText>
 
-                {/* Second Set (Duplicate) */}
-                {brands.map((brand, index) => (
-                    <span
-                        key={`duplicate-${index}`}
-                        className="text-2xl md:text-3xl font-sans font-bold text-gray-800 hover:text-white transition-colors duration-300 cursor-pointer uppercase tracking-widest whitespace-nowrap"
-                    >
-                        {brand}
-                    </span>
-                ))}
-            </motion.div>
-
-            {/* Gradient masks to fade edges */}
-            <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black to-transparent pointer-events-none z-10" />
-            <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black to-transparent pointer-events-none z-10" />
+            {/* Vignette for depth */}
+            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
         </section>
     );
 };

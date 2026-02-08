@@ -29,23 +29,13 @@ const FooterSection = () => {
                 {/* 2. Architectural Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 border-t border-white/10 pt-16">
 
-                    {/* Brand / Address */}
+                    {/* Brand / Address - REMOVED */}
                     <div className="md:col-span-4 space-y-8">
                         <div>
-                            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4">Visit Us</h4>
-                            <p className="text-xl font-light leading-relaxed">
-                                Rani Bazar, <br />
-                                Bikaner, Rajasthan <br />
-                                334001, India
-                            </p>
-                        </div>
-                        <div>
-                            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4">Contact</h4>
-                            <p className="text-xl font-light hover:text-yellow-500 transition-colors cursor-pointer">
-                                hello@guptasales.com
-                            </p>
-                            <p className="text-xl font-light mt-2">
-                                +91 987 654 3210
+                            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4">Location</h4>
+                            <p className="text-xl font-light leading-relaxed text-white/60">
+                                Bikaner, Rajasthan<br />
+                                India
                             </p>
                         </div>
                     </div>
