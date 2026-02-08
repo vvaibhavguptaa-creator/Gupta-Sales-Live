@@ -16,10 +16,10 @@ const Home = () => {
             <section id="legacy" className="-mt-1 bg-[#050505]">
                 <Manifesto />
             </section>
-            <section id="collection" className="-mt-1 bg-[#050505]">
+            <section id="collection" className="-mt-1 bg-[#050505] relative z-0">
                 <ProductShowcase />
             </section>
-            <div className="-mt-1 bg-[#050505]">
+            <div className="-mt-1 bg-[#050505] relative z-10">
                 <Services />
             </div>
         </div>
