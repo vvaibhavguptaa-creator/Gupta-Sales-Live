@@ -38,7 +38,8 @@ const Services = () => {
     const [activeId, setActiveId] = useState<number | null>(1); // Default open first
 
     return (
-        <section className="bg-black py-24 px-6 md:px-12 h-[80vh] flex flex-col justify-center">
+        <section className="bg-black py-24 px-6 md:px-12 h-[80vh] flex flex-col justify-center relative">
+            <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-transparent to-black -translate-y-full pointer-events-none" />
 
             <div className="flex flex-col md:flex-row h-full w-full gap-2 md:gap-4">
                 {services.map((service) => (

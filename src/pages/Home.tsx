@@ -19,7 +19,7 @@ const Home = () => {
             <section id="collection" className="-mt-1 bg-[#050505] relative z-0">
                 <ProductShowcase />
             </section>
-            <div className="-mt-1 bg-[#050505] relative z-10">
+            <div className="-mt-[25vh] bg-[#050505] relative z-10">
                 <Services />
             </div>
         </div>
