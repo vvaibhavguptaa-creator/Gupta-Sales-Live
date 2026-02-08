@@ -46,6 +46,16 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
   }
 }
 
+// Ambient Light Component for Subtle Luxury Depth
+const AmbientLight = () => {
+  return (
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="absolute top-0 left-1/4 w-[50vw] h-[50vw] bg-blue-900/10 rounded-full blur-[120px] mix-blend-screen animate-pulse duration-[10000ms]" />
+      <div className="absolute bottom-0 right-1/4 w-[50vw] h-[50vw] bg-yellow-900/10 rounded-full blur-[120px] mix-blend-screen animate-pulse duration-[7000ms]" />
+    </div>
+  );
+};
+
 function App() {
   return (
     <ErrorBoundary>
@@ -54,9 +64,10 @@ function App() {
         <ScrollToTop />
         <FilmGrain />
         <ScrollColorGrade />
+        <AmbientLight />
         <Navbar />
 
-        <main className="min-h-screen relative z-10 flex flex-col gap-0 bg-black">
+        <main className="min-h-screen relative z-10 flex flex-col gap-0 bg-transparent">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/showroom" element={<Showroom />} />
@@ -65,7 +76,7 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
           </Routes>
         </main>
-        <section id="contact">
+        <section id="contact" className="relative z-20">
           <FooterSection />
         </section>
         <WhatsAppButton />

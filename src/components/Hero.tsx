@@ -41,32 +41,6 @@ const MagneticButton = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-// Elastic Text Component for "Super High Level" interaction
-const ElasticLetter = ({ children }: { children: string }) => {
-    const [isHovered, setIsHovered] = useState(false);
-
-    return (
-        <motion.span
-            className="inline-block relative cursor-default"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            animate={{
-                y: isHovered ? -20 : 0,
-                scaleY: isHovered ? 1.2 : 1,
-                skewX: isHovered ? -10 : 0,
-                color: isHovered ? "#EAB308" : "#FFFFFF" // Gold to White
-            }}
-            transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 10
-            }}
-        >
-            {children}
-        </motion.span>
-    );
-};
-
 const Hero = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -74,139 +48,82 @@ const Hero = () => {
         offset: ["start start", "end start"]
     });
 
-    const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-    const textY = useTransform(scrollYProgress, [0, 1], ["0%", "80%"]);
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            setMousePosition({
-                x: e.clientX,
-                y: e.clientY
-            });
-        };
-
-        window.addEventListener("mousemove", handleMouseMove);
-        return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, []);
-
     return (
-        <section ref={containerRef} className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col justify-center items-center perspective-[1000px] pt-32">
+        <section ref={containerRef} className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col justify-center items-center pt-20">
 
-            {/* 0. Curtain Reveal - Preserved for Theater Effect */}
-            <motion.div
-                initial={{ scaleY: 1 }}
-                animate={{ scaleY: 0 }}
-                transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0 z-50 bg-black origin-top"
-            />
+            {/* Background Image / Texture - Subtle Lux */}
+            <div className="absolute inset-0 opacity-20 z-0">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-800/20 via-black to-black" />
+            </div>
 
-            {/* 1. Atmospheric Fog Deep Layer */}
             <motion.div
-                style={{ y: bgY }}
-                className="absolute inset-0 overflow-hidden pointer-events-none"
+                style={{ y, opacity }}
+                className="relative z-10 flex flex-col items-center text-center px-4 mix-blend-difference"
             >
-                {/* Mouse-reactive fluid patches */}
-                <motion.div
-                    animate={{ x: mousePosition.x * 0.04, y: mousePosition.y * 0.04 }}
-                    transition={{ type: "spring", damping: 100, stiffness: 200 }}
-                    className="absolute -top-[30%] -left-[10%] w-[80vw] h-[80vw] bg-neutral-900/40 rounded-full blur-[180px] mix-blend-screen"
-                />
-                <motion.div
-                    animate={{ x: mousePosition.x * -0.05, y: mousePosition.y * -0.05 }}
-                    transition={{ type: "spring", damping: 100, stiffness: 200 }}
-                    className="absolute -bottom-[30%] -right-[10%] w-[90vw] h-[90vw] bg-neutral-800/30 rounded-full blur-[180px] mix-blend-screen"
-                />
-            </motion.div>
-
-            {/* 2. Massive Editorial Typography */}
-            <motion.div
-                style={{ y: textY, opacity }}
-                className="relative z-10 flex flex-col items-center justify-center w-full px-4"
-            >
-                {/* Subtitle */}
-                <motion.div
+                {/* 1. Top Label */}
+                <motion.span
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.5, duration: 1 }}
-                    className="flex items-center gap-4 mb-8"
+                    transition={{ delay: 0.5, duration: 1 }}
+                    className="text-yellow-500/80 text-xs md:text-sm font-sans tracking-[0.4em] uppercase mb-6"
                 >
-                    <div className="h-[1px] w-12 bg-yellow-500/50" />
-                    <span className="text-yellow-500/80 uppercase tracking-[0.5em] text-xs font-medium font-sans">
-                        Crafting Legacy Since 1995
-                    </span>
-                    <div className="h-[1px] w-12 bg-yellow-500/50" />
-                </motion.div>
+                    Est. 1995 • Bikaner
+                </motion.span>
 
-                {/* Main Headline - Split & Huge */}
-                <div className="flex flex-col items-center leading-[0.85] select-none mix-blend-difference">
-                    <motion.div
-                        initial={{ y: 150, rotate: 5 }}
-                        animate={{ y: 0, rotate: 0 }}
-                        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                        className="overflow-hidden"
+                {/* 2. Main Title - Vogue / Editorial Style */}
+                <h1 className="font-serif text-[16vw] leading-[0.8] text-white tracking-tighter flex flex-col items-center">
+                    <motion.span
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                        className="block"
                     >
-                        <h1 className="font-serif text-[18vw] text-white tracking-tighter flex">
-                            {Array.from("ART").map((char, i) => (
-                                <ElasticLetter key={i}>{char}</ElasticLetter>
-                            ))}
-                        </h1>
-                    </motion.div>
-
+                        THE ART
+                    </motion.span>
                     <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 1.5, ease: "easeOut", delay: 0.8 }}
-                        className="flex items-center gap-6 my-2"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 1.5, delay: 0.8, ease: "circOut" }}
+                        className="w-[20vw] h-[1px] bg-white/30 my-4 md:my-8"
+                    />
+                    <motion.span
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+                        className="block italic font-light text-white/90"
                     >
-                        <span className="font-sans text-xl md:text-3xl font-light italic text-white/40 tracking-widest">of</span>
-                    </motion.div>
+                        OF LIVING
+                    </motion.span>
+                </h1>
 
-                    <motion.div
-                        initial={{ y: 150, rotate: -5 }}
-                        animate={{ y: 0, rotate: 0 }}
-                        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-                        className="overflow-hidden"
-                    >
-                        <h1 className="font-serif text-[18vw] text-white tracking-tighter flex">
-                            {Array.from("LIVING").map((char, i) => (
-                                <ElasticLetter key={i}>{char}</ElasticLetter>
-                            ))}
-                        </h1>
-                    </motion.div>
-                </div>
-
-                {/* Description */}
+                {/* 3. Description */}
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 2, duration: 1 }}
-                    className="mt-12 text-white/50 font-light text-sm md:text-base tracking-widest max-w-md text-center uppercase"
+                    transition={{ delay: 1.2, duration: 1 }}
+                    className="mt-12 text-white/60 font-sans font-light text-sm md:text-lg tracking-widest max-w-lg leading-relaxed"
                 >
-                    Precision engineering meets <br /> timeless aesthetics.
+                    Curating the world's finest sanitaryware and surfaces for homes that demand legacy.
                 </motion.p>
             </motion.div>
 
-            {/* 3. Magnetic Scroll Indicator */}
+            {/* 4. Scroll Indicator */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 2.5, duration: 1 }}
-                className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 mix-blend-difference"
+                transition={{ delay: 2, duration: 1 }}
+                className="absolute bottom-12 z-20"
             >
-                <a href="#collection">
-                    <MagneticButton>
-                        <div className="flex flex-col items-center gap-3 cursor-pointer group p-4">
-                            <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
-                                <HiArrowDown className="text-xl animated-bounce" />
-                            </div>
-                        </div>
-                    </MagneticButton>
-                </a>
+                <MagneticButton>
+                    <div className="flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-100 transition-opacity duration-500">
+                        <span className="text-[10px] uppercase tracking-widest text-white">Explore</span>
+                        <HiArrowDown className="text-white text-xl animate-bounce" />
+                    </div>
+                </MagneticButton>
             </motion.div>
-
         </section>
     );
 };

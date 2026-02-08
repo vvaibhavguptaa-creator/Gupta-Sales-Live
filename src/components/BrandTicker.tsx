@@ -1,94 +1,32 @@
 
-import { useRef } from "react";
-import {
-    motion,
-    useScroll,
-    useSpring,
-    useTransform,
-    useMotionValue,
-    useVelocity,
-    useAnimationFrame
-} from "framer-motion";
+import { motion } from "framer-motion";
 
-// Utility function to replace @motionone/utils wrap
-const wrap = (min: number, max: number, v: number) => {
-    const rangeSize = max - min;
-    return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
-};
-
-interface ParallaxProps {
-    children: string;
-    baseVelocity: number;
-}
-
-function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
-    const baseX = useMotionValue(0);
-    const { scrollY } = useScroll();
-    const scrollVelocity = useVelocity(scrollY);
-    const smoothVelocity = useSpring(scrollVelocity, {
-        damping: 50,
-        stiffness: 400
-    }); const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
-        clamp: false
-    });
-
-    /**
-     * This is a magic wrapping for the length of the text - you
-     * have to replace for wrapping that works for you or dynamically
-     * calculate
-     */
-    const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
-
-    const directionFactor = useRef<number>(1);
-    useAnimationFrame((t, delta) => {
-        let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
-
-        /**
-         * This is what changes the direction of the scroll once we
-         * switch scrolling directions.
-         */
-        if (velocityFactor.get() < 0) {
-            directionFactor.current = -1;
-        } else if (velocityFactor.get() > 0) {
-            directionFactor.current = 1;
-        }
-
-        moveBy += directionFactor.current * moveBy * velocityFactor.get();
-
-        baseX.set(baseX.get() + moveBy);
-    });
-
-    /**
-     * The number of times to repeat the child text should be dynamically calculated
-     * based on the size of the text and viewport. Likewise, the x motion value is
-     * currently wrapped between -20 and -45% - this 25% is derived from the fact
-     * that we have four children (100% / 4). This would also want deriving from the
-     * dynamically generated number of children.
-     */
-    return (
-        <div className="parallax group">
-            <motion.div className="scroller flex flex-nowrap whitespace-nowrap" style={{ x }}>
-                {/* Solid, Professional Typography - Focus Effect */}
-                {[...Array(4)].map((_, i) => (
-                    <span key={i} className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-medium uppercase tracking-tighter text-white/80 select-none transition-all duration-500 cursor-default group-hover:opacity-30 hover:!opacity-100 hover:scale-110 origin-center">
-                        {children}
-                    </span>
-                ))}
-            </motion.div>
-        </div>
-    );
-}
+const brands = [
+    "Kohler", "Jaquar", "Grohe", "Kajaria", "Somany", "Hindware"
+];
 
 const BrandTicker = () => {
     return (
-        <section className="bg-black py-24 overflow-hidden relative z-10 border-y border-white/5">
-            <ParallaxText baseVelocity={-2}>Kohler Jaquar Grohe Kajaria</ParallaxText>
-            <div className="h-12" /> {/* Gap */}
-            <ParallaxText baseVelocity={2}>Somany Hindware Cera AsianPaints</ParallaxText>
-
-            {/* Vignette for depth */}
-            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black via-black/80 to-transparent z-20 pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black via-black/80 to-transparent z-20 pointer-events-none" />
+        <section className="bg-black py-16 border-y border-white/5 relative z-10">
+            <div className="container mx-auto px-6">
+                <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
+                    {brands.map((brand, i) => (
+                        <motion.span
+                            key={i}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1, duration: 0.8 }}
+                            className="text-2xl md:text-3xl font-serif font-light text-white tracking-widest cursor-default hover:text-yellow-500 transition-colors duration-300"
+                        >
+                            {brand}
+                        </motion.span>
+                    ))}
+                </div>
+                <p className="text-center text-white/20 text-[10px] uppercase tracking-[0.3em] mt-8">
+                    Trusted by the World's Best
+                </p>
+            </div>
         </section>
     );
 };
