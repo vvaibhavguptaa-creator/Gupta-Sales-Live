@@ -9,7 +9,12 @@ import {
     useVelocity,
     useAnimationFrame
 } from "framer-motion";
-import { wrap } from "@motionone/utils";
+
+// Utility function to replace @motionone/utils wrap
+const wrap = (min: number, max: number, v: number) => {
+    const rangeSize = max - min;
+    return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
+};
 
 interface ParallaxProps {
     children: string;
