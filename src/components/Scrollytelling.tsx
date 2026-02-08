@@ -48,7 +48,7 @@ const Scrollytelling = () => {
         <section ref={containerRef} className="relative h-[400vh] bg-[#fafaf9]"> {/* stone-50 */}
 
             {/* STICKY WINDOW */}
-            <div className="sticky top-0 h-screen overflow-hidden flex items-center">
+            <div className="sticky top-0 h-screen overflow-hidden flex items-center bg-[#fafaf9]">
 
                 {/* HORIZONTAL TRACK */}
                 <motion.div
@@ -83,7 +83,7 @@ const Scrollytelling = () => {
                                 </div>
 
                                 {/* IMAGE CONTENT */}
-                                <div className={`relative h-[50vh] md:h-[70vh] w-full ${panel.align === 'end' ? 'md:order-1' : ''}`}>
+                                <div className={`relative h-[40vh] md:h-[60vh] w-full ${panel.align === 'end' ? 'md:order-1' : ''}`}>
                                     <motion.div
                                         initial={{ scale: 0.9, opacity: 0 }}
                                         whileInView={{ scale: 1, opacity: 1 }}
