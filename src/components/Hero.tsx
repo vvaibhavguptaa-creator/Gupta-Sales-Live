@@ -93,7 +93,7 @@ const Hero = () => {
     }, []);
 
     return (
-        <section ref={containerRef} className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col justify-center items-center perspective-[1000px]">
+        <section ref={containerRef} className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col justify-center items-center perspective-[1000px] pt-32">
 
             {/* 0. Curtain Reveal - Preserved for Theater Effect */}
             <motion.div
