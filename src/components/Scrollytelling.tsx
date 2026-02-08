@@ -37,8 +37,8 @@ const Scrollytelling = () => {
         // PARENT: Defines the total scroll length (400vh)
         <div ref={containerRef} className="relative h-[400vh] bg-[#F5F5F7]">
 
-            {/* STICKY WRAPPER: Locks to viewport. Must be h-screen and top-0. */}
-            <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden z-10">
+            {/* STICKY WRAPPER: Locks to viewport. Must be h-screen and top-0. Added bg-[#F5F5F7] to prevent transparency/black issues */}
+            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden z-10 bg-[#F5F5F7]">
 
                 {/* Background Gradient Detail */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-[#F5F5F7] opacity-60 pointer-events-none" />

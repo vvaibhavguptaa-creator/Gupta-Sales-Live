@@ -15,35 +15,37 @@
     @apply bg-primary text-secondary font-sans antialiased tracking-tight;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
+    /* Fixes sticky support while preventing scroll */
     overflow-y: auto;
     height: auto;
   }
+}
 
-  ::selection {
-    @apply bg-yellow-500/30 text-yellow-500;
-  }
+::selection {
+  @apply bg-yellow-500/30 text-yellow-500;
+}
 
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    opacity: 0.05;
-    pointer-events: none;
-    z-index: 50;
-  }
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 50;
+}
 
-  /* Keep your Heading Fonts settings too! */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-serif;
-  }
+/* Keep your Heading Fonts settings too! */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-serif;
+}
 }
