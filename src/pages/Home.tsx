@@ -3,6 +3,7 @@ import BrandTicker from '../components/BrandTicker';
 import ProductCategories from '../components/ProductCategories';
 import Scrollytelling from '../components/Scrollytelling';
 import LivingGallery from '../components/LivingGallery';
+import BlueprintProcess from '../components/BlueprintProcess';
 import Manifesto from '../components/Manifesto';
 import ProductShowcase from '../components/ProductShowcase';
 import Services from '../components/Services';
@@ -35,18 +36,23 @@ const Home = () => {
                 <LivingGallery />
             </div>
 
-            {/* Section 5: Legacy/Manifesto (Slides Over) */}
-            <section id="legacy" className="relative z-25 bg-black shadow-2xl shadow-black">
+            {/* Section 5: The Blueprint Process (Slides Over) */}
+            <div className="relative z-25 bg-white">
+                <BlueprintProcess />
+            </div>
+
+            {/* Section 6: Legacy/Manifesto (Slides Over) */}
+            <section id="legacy" className="relative z-30 bg-black shadow-2xl shadow-black">
                 <Manifesto />
             </section>
 
-            {/* Section 4: Collection/ProductShowcase (Slides Over & Sticks) */}
-            <section id="collection" className="relative z-30 bg-black">
+            {/* Section 7: Collection/ProductShowcase (Slides Over & Sticks) */}
+            <section id="collection" className="relative z-40 bg-black">
                 <ProductShowcase />
             </section>
 
-            {/* Section 5: Services (Slides Over Final) */}
-            <div className="relative z-40 bg-black shadow-[0_-50px_100px_rgba(0,0,0,1)]">
+            {/* Section 8: Services (Slides Over Final) */}
+            <div className="relative z-50 bg-black shadow-[0_-50px_100px_rgba(0,0,0,1)]">
                 <Services />
             </div>
         </div>
