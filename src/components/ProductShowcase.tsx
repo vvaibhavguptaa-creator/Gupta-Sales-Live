@@ -34,7 +34,7 @@ const items = [
 
 const ProductShowcase = () => {
     return (
-        <section className="bg-[#050505] py-20 px-6">
+        <section className="bg-black py-16 px-6 mt-0">
             <div className="container mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {items.map((item, index) => (

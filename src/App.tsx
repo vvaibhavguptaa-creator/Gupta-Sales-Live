@@ -54,7 +54,7 @@ function App() {
         <Spotlight />
         <Navbar />
 
-        <div className="min-h-screen relative z-10">
+        <main className="min-h-screen relative z-10 flex flex-col gap-0 bg-black">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/showroom" element={<Showroom />} />
@@ -62,7 +62,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/product/:id" element={<ProductDetails />} />
           </Routes>
-        </div>
+        </main>
         <section id="contact">
           <FooterSection />
         </section>

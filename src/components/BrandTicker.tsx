@@ -14,7 +14,7 @@ const brands = [
 
 const BrandTicker = () => {
     return (
-        <section className="bg-black border-y border-white/5 py-8 overflow-hidden flex relative z-10">
+        <section className="bg-black border-y border-white/10 py-6 overflow-hidden flex relative z-10">
             <div className="flex select-none">
                 {/* First copy of the list */}
                 <motion.div

@@ -15,7 +15,7 @@ const Manifesto = () => {
     const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
 
     return (
-        <section ref={containerRef} className="relative min-h-[150vh] bg-[#050505] text-white py-24 overflow-hidden">
+        <section ref={containerRef} className="relative min-h-[150vh] bg-black text-white py-20 mt-0 overflow-hidden">
             <div className="container mx-auto px-6 h-full flex flex-col md:flex-row gap-20 relative z-10">
 
                 {/* Left Column: Sticky Image */}
