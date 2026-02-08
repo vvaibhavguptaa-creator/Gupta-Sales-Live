@@ -19,41 +19,37 @@ const Navbar = () => {
         { name: 'COLLECTION', href: '#collection' },
         { name: 'LEGACY', href: '#legacy' },
         { name: 'SERVICES', href: '#services' },
-        { name: 'CONTACT', href: '#contact' },
     ];
 
     const menuVariants = {
-        hidden: { opacity: 0, y: "-100%" },
+        hidden: { opacity: 0, scale: 0.95 },
         visible: {
             opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.5
-            }
+            scale: 1,
+            transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
         },
         exit: {
             opacity: 0,
-            y: "-100%",
-            transition: {
-                duration: 0.4
-            }
+            scale: 0.95,
+            transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
         }
     };
 
     const linkVariants = {
-        hidden: { opacity: 0, y: 20 },
+        hidden: { opacity: 0, y: 30 },
         visible: (i: number) => ({
             opacity: 1,
             y: 0,
             transition: {
-                delay: 0.1 * i + 0.3, // Stagger effect
-                duration: 0.5
+                delay: 0.1 * i + 0.2,
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1]
             }
         })
     };
 
     return (
-        <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-black/90 backdrop-blur-md py-4' : 'bg-transparent py-6'
+        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6'
             }`}>
             <div className="container mx-auto px-6 flex justify-between items-center relative z-50">
                 {/* Logo */}
@@ -62,16 +58,25 @@ const Navbar = () => {
                 </a>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex space-x-8">
+                <div className="hidden md:flex items-center space-x-12">
                     {navLinks.map((item) => (
                         <a
                             key={item.name}
                             href={item.href}
-                            className="text-sm uppercase tracking-widest text-gray-300 hover:text-white transition-colors"
+                            className="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors relative group"
                         >
                             {item.name}
+                            <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-yellow-500 transition-all duration-300 group-hover:w-full" />
                         </a>
                     ))}
+
+                    {/* Premium CTA Button */}
+                    <a
+                        href="#contact"
+                        className="px-6 py-2.5 text-xs font-medium tracking-widest uppercase text-yellow-500 border border-yellow-500/30 hover:bg-yellow-500 hover:text-black transition-all duration-300 rounded-sm"
+                    >
+                        Book Consultation
+                    </a>
                 </div>
 
                 {/* Mobile Hamburger Button */}
@@ -92,7 +97,7 @@ const Navbar = () => {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center md:hidden"
+                        className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center md:hidden"
                     >
                         {/* Close Button stuck to top right */}
                         <div className="absolute top-6 right-6">
@@ -106,7 +111,7 @@ const Navbar = () => {
                         </div>
 
                         {/* Menu Links */}
-                        <div className="flex flex-col space-y-8 text-center">
+                        <div className="flex flex-col space-y-12 text-center">
                             {navLinks.map((item, i) => (
                                 <motion.a
                                     key={item.name}
@@ -114,11 +119,24 @@ const Navbar = () => {
                                     variants={linkVariants}
                                     href={item.href}
                                     onClick={() => setIsOpen(false)}
-                                    className="text-3xl font-serif text-gray-300 hover:text-yellow-500 transition-colors uppercase tracking-widest"
+                                    className="text-4xl font-serif text-white hover:text-yellow-500 transition-colors tracking-tight"
                                 >
                                     {item.name}
                                 </motion.a>
                             ))}
+
+                            <motion.div
+                                custom={3}
+                                variants={linkVariants}
+                            >
+                                <a
+                                    href="#contact"
+                                    onClick={() => setIsOpen(false)}
+                                    className="mt-8 px-8 py-3 text-sm font-medium tracking-widest uppercase text-yellow-500 border border-yellow-500/30 hover:bg-yellow-500 hover:text-black transition-all duration-300 inline-block"
+                                >
+                                    Book Consultation
+                                </a>
+                            </motion.div>
                         </div>
                     </motion.div>
                 )}
