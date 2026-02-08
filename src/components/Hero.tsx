@@ -8,14 +8,14 @@ const Hero = () => {
 
             {/* 1. Background Layer */}
             <div className="absolute inset-0 z-0">
-                {/* Fallback Image: Ensuring no blank screen if video fails */}
+                {/* Fallback Image: Safety first */}
                 <img
                     src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop"
                     alt="Luxury Texture"
                     className="absolute inset-0 w-full h-full object-cover opacity-60"
                 />
 
-                {/* Cinematic Video: Ink/Smoke Effect */}
+                {/* Cinematic Video: Black Ink in Water (Coverr) */}
                 <video
                     autoPlay
                     loop
@@ -23,7 +23,7 @@ const Hero = () => {
                     playsInline
                     className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen"
                 >
-                    <source src="https://videos.pexels.com/video-files/1448735/1448735-uhd_2560_1440_24fps.mp4" type="video/mp4" />
+                    <source src="https://cdn.coverr.co/videos/coverr-black-ink-in-water-4528/1080p.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
 
@@ -33,22 +33,24 @@ const Hero = () => {
 
             {/* 2. Main Content */}
             <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
+                {/* Sub-headline: High-End Label */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
                 >
-                    <span className="text-yellow-500 uppercase tracking-[0.4em] text-xs md:text-sm font-medium mb-6 block">
+                    <span className="text-yellow-500 uppercase tracking-[0.3em] text-xs md:text-sm font-medium mb-6 block font-sans">
                         Est. 1995 • Bikaner
                     </span>
                 </motion.div>
 
+                {/* Main Headline: Massive Serif */}
                 <div className="overflow-hidden mb-6">
                     <motion.h1
                         initial={{ opacity: 0, y: 100 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                        className="font-serif text-6xl md:text-8xl lg:text-9xl text-white tracking-tight leading-none"
+                        className="font-serif text-6xl md:text-9xl text-white tracking-tight leading-none"
                     >
                         Define Your <br />
                         <span className="italic text-gray-400">Sanctuary.</span>
