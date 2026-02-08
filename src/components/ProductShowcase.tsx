@@ -66,7 +66,7 @@ const ProductShowcase = () => {
     const smoothX = useSpring(x, { stiffness: 100, damping: 20 });
 
     return (
-        <section ref={targetRef} className="relative h-[250vh] bg-black">
+        <section ref={targetRef} className="relative h-[180vh] bg-black">
             <div className="sticky top-0 h-screen flex items-center overflow-hidden">
 
                 {/* Section Title */}

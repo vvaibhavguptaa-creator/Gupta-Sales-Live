@@ -66,11 +66,11 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
      * dynamically generated number of children.
      */
     return (
-        <div className="parallax">
+        <div className="parallax group">
             <motion.div className="scroller flex flex-nowrap whitespace-nowrap" style={{ x }}>
-                {/* Solid, Professional Typography - No Outline */}
+                {/* Solid, Professional Typography - Focus Effect */}
                 {[...Array(4)].map((_, i) => (
-                    <span key={i} className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-medium uppercase tracking-tighter text-white/80 select-none hover:text-white transition-colors duration-500 cursor-default">
+                    <span key={i} className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-medium uppercase tracking-tighter text-white/80 select-none transition-all duration-500 cursor-default group-hover:opacity-30 hover:!opacity-100 hover:scale-110 origin-center">
                         {children}
                     </span>
                 ))}

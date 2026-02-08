@@ -5,7 +5,6 @@ import Navbar from './components/Navbar';
 import SmoothScroll from './components/SmoothScroll';
 import ScrollToTop from './components/ScrollToTop';
 import FilmGrain from './components/FilmGrain';
-import Preloader from './components/Preloader';
 import ScrollColorGrade from './components/ScrollColorGrade';
 import Home from './pages/Home';
 import Showroom from './pages/Showroom';
@@ -51,7 +50,6 @@ function App() {
   return (
     <ErrorBoundary>
       <Router>
-        <Preloader />
         <SmoothScroll />
         <ScrollToTop />
         <FilmGrain />
