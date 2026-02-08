@@ -1,6 +1,37 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
+const panels = [
+    {
+        id: 1,
+        title: "Precision.",
+        description: "Every curve is calculated. Every angle is intentional. Designed for those who demand exactness in every drop.",
+        image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
+        align: "start"
+    },
+    {
+        id: 2,
+        title: "Flow.",
+        description: "Water should not just move; it should glide. Our aerators create a stream that feels like silk against the skin.",
+        image: "https://images.unsplash.com/photo-1556911220-e6584462aa3c?auto=format&fit=crop&q=80&w=800",
+        align: "end"
+    },
+    {
+        id: 3,
+        title: "Silence.",
+        description: "True luxury is quiet. Advanced valve technology ensures that the only sound you hear is the water itself.",
+        image: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&q=80&w=800",
+        align: "start"
+    },
+    {
+        id: 4,
+        title: "Perfection.",
+        description: "The result of 30 years of engineering. A bathroom fitting that stands the test of time and trends.",
+        image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=800",
+        align: "center"
+    }
+];
+
 const Scrollytelling = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -8,92 +39,84 @@ const Scrollytelling = () => {
         offset: ["start start", "end end"]
     });
 
-    // --- PHYSICS ENGINE (Full 400vh coverage) --- //
-
-    // 1. Rotation: Slow 90deg turn over the entire section
-    const rotate = useTransform(scrollYProgress, [0, 1], [0, 90]);
-
-    // 2. Text Timeline (4 Steps)
-
-    // Text 1: "Precision" (0% - 20%)
-    const opacity1 = useTransform(scrollYProgress, [0, 0.1, 0.2], [0, 1, 0]);
-    const y1 = useTransform(scrollYProgress, [0, 0.2], [20, -20]);
-
-    // Text 2: "Flow" (20% - 40%)
-    const opacity2 = useTransform(scrollYProgress, [0.2, 0.3, 0.4], [0, 1, 0]);
-    const y2 = useTransform(scrollYProgress, [0.2, 0.4], [20, -20]);
-
-    // Text 3: "Silence" (40% - 60%)
-    const opacity3 = useTransform(scrollYProgress, [0.4, 0.5, 0.6], [0, 1, 0]);
-    const y3 = useTransform(scrollYProgress, [0.4, 0.6], [20, -20]);
-
-    // Text 4: "Perfection" (60% - 100%) - STAYS VISIBLE!
-    // Fades in at 60%, stays fully visible until the end
-    const opacity4 = useTransform(scrollYProgress, [0.6, 0.7, 1], [0, 1, 1]);
-    const y4 = useTransform(scrollYProgress, [0.6, 0.7], [20, 0]);
-
+    // Map vertical scroll (0 to 1) to horizontal movement (0% to -75%)
+    // -75% because we have 4 panels of 100vw each. Total width 400vw.
+    // To show the last panel, we need to move Left by 300vw (or 75% of 400vw).
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
     return (
-        // PARENT: Defines the total scroll length (400vh)
-        <div ref={containerRef} className="relative h-[400vh] bg-[#F5F5F7]">
+        <section ref={containerRef} className="relative h-[400vh] bg-[#fafaf9]"> {/* stone-50 */}
 
-            {/* STICKY WRAPPER: Locks to viewport. Must be h-screen and top-0. Added bg-[#F5F5F7] to prevent transparency/black issues */}
-            <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden z-10 bg-[#F5F5F7]">
+            {/* STICKY WINDOW */}
+            <div className="sticky top-0 h-screen overflow-hidden flex items-center">
 
-                {/* Background Gradient Detail */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-[#F5F5F7] opacity-60 pointer-events-none" />
+                {/* HORIZONTAL TRACK */}
+                <motion.div
+                    style={{ x }}
+                    className="flex w-[400vw] h-full"
+                >
+                    {panels.map((panel) => (
+                        <div key={panel.id} className="w-[100vw] h-full flex items-center justify-center relative px-4 md:px-20">
 
-                {/* TEXT LAYER (Left Side) */}
-                <div className="absolute left-0 w-full md:w-1/2 h-full flex flex-col justify-center items-center md:items-start pl-0 md:pl-24 z-20 pointer-events-none">
-                    <div className="relative w-full max-w-lg text-center md:text-left">
-                        {/* 1. Precision */}
-                        <motion.h2 style={{ opacity: opacity1, y: y1 }} className="absolute top-0 w-full text-[#1D1D1F] text-5xl md:text-8xl font-bold tracking-tight">
-                            Precision.
-                        </motion.h2>
+                            {/* CONTENT LAYOUT */}
+                            <div className={`container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center h-full ${panel.align === 'end' ? 'md:flex-row-reverse' : ''}`}>
 
-                        {/* 2. Flow */}
-                        <motion.h2 style={{ opacity: opacity2, y: y2 }} className="absolute top-0 w-full text-[#1D1D1F] text-5xl md:text-8xl font-bold tracking-tight">
-                            Flow.
-                        </motion.h2>
+                                {/* TEXT CONTENT */}
+                                <div className={`flex flex-col justify-center z-10 ${panel.align === 'end' ? 'md:order-2' : ''}`}>
+                                    <motion.h2
+                                        initial={{ opacity: 0, y: 50 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ margin: "-100px" }}
+                                        transition={{ duration: 0.8 }}
+                                        className="text-6xl md:text-9xl font-serif text-[#1c1917] mb-8 leading-[0.9]"
+                                    >
+                                        {panel.title}
+                                    </motion.h2>
+                                    <motion.p
+                                        initial={{ opacity: 0 }}
+                                        whileInView={{ opacity: 1 }}
+                                        transition={{ duration: 0.8, delay: 0.2 }}
+                                        className="text-xl md:text-2xl font-light text-[#44403c] max-w-lg leading-relaxed"
+                                    >
+                                        {panel.description}
+                                    </motion.p>
+                                </div>
 
-                        {/* 3. Silence */}
-                        <motion.h2 style={{ opacity: opacity3, y: y3 }} className="absolute top-0 w-full text-[#1D1D1F] text-5xl md:text-8xl font-bold tracking-tight">
-                            Silence.
-                        </motion.h2>
+                                {/* IMAGE CONTENT */}
+                                <div className={`relative h-[50vh] md:h-[70vh] w-full ${panel.align === 'end' ? 'md:order-1' : ''}`}>
+                                    <motion.div
+                                        initial={{ scale: 0.9, opacity: 0 }}
+                                        whileInView={{ scale: 1, opacity: 1 }}
+                                        transition={{ duration: 1 }}
+                                        viewport={{ margin: "-100px" }}
+                                        className="w-full h-full overflow-hidden rounded-[2rem] shadow-2xl"
+                                    >
+                                        <img
+                                            src={panel.image}
+                                            alt={panel.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                        {/* Gloss Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent pointer-events-none" />
+                                    </motion.div>
 
-                        {/* 4. Perfection (Stays) */}
-                        <motion.h2 style={{ opacity: opacity4, y: y4 }} className="absolute top-0 w-full text-[#1D1D1F] text-5xl md:text-8xl font-bold tracking-tight">
-                            Perfection.
-                        </motion.h2>
-                    </div>
-                </div>
+                                    {/* Deco Elements */}
+                                    <div className="absolute -z-10 -bottom-10 -right-10 w-40 h-40 bg-[#e7e5e4] rounded-full blur-3xl opacity-60" />
+                                </div>
 
+                            </div>
 
-                {/* PRODUCT LAYER (Right Side) */}
-                <div className="absolute right-0 w-full md:w-1/2 h-full flex items-center justify-center z-10">
-                    <motion.div
-                        style={{ rotate }}
-                        className="w-[80vw] md:w-[40vw] max-w-[600px] aspect-square flex items-center justify-center"
-                    >
-                        {/* Shadow */}
-                        <motion.div
-                            style={{
-                                rotate: useTransform(rotate, (r) => -r),
-                                opacity: 0.3
-                            }}
-                            className="absolute bottom-12 w-[60%] h-[20px] bg-black blur-2xl rounded-[100%]"
-                        />
+                            {/* PANEL NUMBER BG */}
+                            <span className="absolute bottom-10 left-10 md:left-20 text-[10vw] font-bold text-[#e7e5e4] pointer-events-none select-none leading-none z-0">
+                                0{panel.id}
+                            </span>
 
-                        <img
-                            src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
-                            alt="Scrollytelling Product"
-                            className="w-full h-full object-contain drop-shadow-2xl"
-                        />
-                    </motion.div>
-                </div>
+                        </div>
+                    ))}
+                </motion.div>
 
             </div>
-        </div>
+        </section>
     );
 };
 
