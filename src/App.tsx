@@ -5,7 +5,6 @@ import Navbar from './components/Navbar';
 import SmoothScroll from './components/SmoothScroll';
 import ScrollToTop from './components/ScrollToTop';
 import FilmGrain from './components/FilmGrain';
-import CustomCursor from './components/CustomCursor';
 import Preloader from './components/Preloader';
 import ScrollColorGrade from './components/ScrollColorGrade';
 import Home from './pages/Home';
@@ -54,7 +53,6 @@ function App() {
       <Router>
         <Preloader />
         <SmoothScroll />
-        <CustomCursor />
         <ScrollToTop />
         <FilmGrain />
         <ScrollColorGrade />

@@ -68,10 +68,12 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
     return (
         <div className="parallax">
             <motion.div className="scroller flex flex-nowrap whitespace-nowrap" style={{ x }}>
-                <span className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-semibold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/20 select-none hover:text-yellow-500 transition-colors duration-500 cursor-default">{children}</span>
-                <span className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-semibold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/20 select-none hover:text-yellow-500 transition-colors duration-500 cursor-default">{children}</span>
-                <span className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-semibold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/20 select-none hover:text-yellow-500 transition-colors duration-500 cursor-default">{children}</span>
-                <span className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-semibold uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/80 to-white/20 select-none hover:text-yellow-500 transition-colors duration-500 cursor-default">{children}</span>
+                {/* Solid, Professional Typography - No Outline */}
+                {[...Array(4)].map((_, i) => (
+                    <span key={i} className="block mr-16 md:mr-32 text-6xl md:text-8xl font-serif font-medium uppercase tracking-tighter text-white/80 select-none hover:text-white transition-colors duration-500 cursor-default">
+                        {children}
+                    </span>
+                ))}
             </motion.div>
         </div>
     );
