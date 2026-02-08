@@ -63,7 +63,7 @@ const ProductShowcase = () => {
         offset: ["start start", "end end"]
     });
 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85vw"]);
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-50vw"]);
     const smoothX = useSpring(x, { stiffness: 100, damping: 20 });
 
     return (
