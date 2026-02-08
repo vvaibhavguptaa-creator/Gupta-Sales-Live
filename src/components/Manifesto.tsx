@@ -21,14 +21,14 @@ const Manifesto = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start 0.9", "end 0.5"]
+        offset: ["start 0.9", "end 0.8"]
     });
 
     const text = "Thirty years of redefining spaces. We don't just sell tiles; we curate the backdrop of your life's most intimate moments. From the morning ritual to the evening unwind, our surfaces are the silent witnesses to your legacy.";
     const words = text.split(" ");
 
     return (
-        <section ref={containerRef} className="relative bg-black py-40 px-6 min-h-[150vh]">
+        <section ref={containerRef} className="relative bg-black py-40 px-6 min-h-[200vh]">
             <div className="container mx-auto max-w-6xl">
                 <div className="sticky top-40">
                     <h2 className="text-4xl md:text-7xl lg:text-[5vw] font-serif font-light leading-[1.1] text-white tracking-tight flex flex-wrap">

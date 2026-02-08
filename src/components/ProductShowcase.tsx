@@ -63,11 +63,11 @@ const ProductShowcase = () => {
         offset: ["start start", "end end"]
     });
 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-35vw"]);
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-45vw"]);
     const smoothX = useSpring(x, { stiffness: 100, damping: 20 });
 
     return (
-        <section ref={targetRef} className="relative h-[120vh] bg-black">
+        <section ref={targetRef} className="relative h-[300vh] bg-black">
             <div className="sticky top-0 h-screen flex items-center overflow-hidden">
 
                 {/* Section Title */}
