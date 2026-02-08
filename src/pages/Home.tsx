@@ -1,5 +1,6 @@
 import Hero from '../components/Hero';
 import BrandTicker from '../components/BrandTicker';
+import ProductCategories from '../components/ProductCategories';
 import Manifesto from '../components/Manifesto';
 import ProductShowcase from '../components/ProductShowcase';
 import Services from '../components/Services';
@@ -15,6 +16,11 @@ const Home = () => {
             {/* Section 2: Brand Ticker (Slides Over) */}
             <div className="relative z-10 bg-black">
                 <BrandTicker />
+            </div>
+
+            {/* Section 2.5: Product Categories (Bento Grid) */}
+            <div className="relative z-15">
+                <ProductCategories />
             </div>
 
             {/* Section 3: Legacy/Manifesto (Slides Over) */}
