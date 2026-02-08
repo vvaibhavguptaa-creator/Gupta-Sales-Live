@@ -6,6 +6,9 @@ import Spotlight from './components/Spotlight';
 import SmoothScroll from './components/SmoothScroll';
 import ScrollToTop from './components/ScrollToTop';
 import FilmGrain from './components/FilmGrain';
+import CustomCursor from './components/CustomCursor';
+import Preloader from './components/Preloader';
+import ScrollColorGrade from './components/ScrollColorGrade';
 import Home from './pages/Home';
 import Showroom from './pages/Showroom';
 import About from './pages/About';
@@ -50,10 +53,13 @@ function App() {
   return (
     <ErrorBoundary>
       <Router>
+        <Preloader />
         <SmoothScroll />
+        <CustomCursor />
         <ScrollToTop />
         <FilmGrain />
         <Spotlight />
+        <ScrollColorGrade />
         <Navbar />
 
         <main className="min-h-screen relative z-10 flex flex-col gap-0 bg-black">

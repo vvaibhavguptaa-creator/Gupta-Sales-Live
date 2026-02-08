@@ -111,17 +111,25 @@ const ProductCard = ({ item, index }: { item: typeof items[0], index: number }) 
             {/* Inner Content Container - transformed for depth */}
             <div className="absolute inset-0 overflow-hidden rounded-sm border border-white/10" style={{ transform: "translateZ(0px)" }}>
 
-                {/* Background Image (Default) */}
-                <motion.img
-                    src={item.image}
-                    alt={item.title}
-                    animate={{
-                        opacity: isHovered ? 0 : 0.7,
-                        scale: isHovered ? 1.1 : 1
-                    }}
-                    transition={{ duration: 0.7 }}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
-                />
+                {/* Background Image (Default) - Wrapped in Clip Path Reveal */}
+                <motion.div
+                    initial={{ clipPath: "inset(0 0 100% 0)" }}
+                    whileInView={{ clipPath: "inset(0 0 0% 0)" }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0 w-full h-full"
+                >
+                    <motion.img
+                        src={item.image}
+                        alt={item.title}
+                        animate={{
+                            opacity: isHovered ? 0 : 0.7,
+                            scale: isHovered ? 1.1 : 1
+                        }}
+                        transition={{ duration: 0.7 }}
+                        className="w-full h-full object-cover transition-transform duration-700"
+                    />
+                </motion.div>
 
                 {/* Background Video (Hover) */}
                 <motion.div

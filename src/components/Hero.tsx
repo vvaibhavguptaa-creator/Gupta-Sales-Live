@@ -98,53 +98,41 @@ const Hero = () => {
                 className="absolute inset-0 z-50 bg-black origin-top"
             />
 
-            {/* 1. Living Gradient Background (with Parallax) */}
+            {/* 1. Fluid Interactive Background */}
             <motion.div
                 style={{ y: bgY }}
                 className="absolute inset-0 overflow-hidden pointer-events-none"
             >
                 <motion.div
                     animate={{
-                        x: [0, 100, 0],
-                        y: [0, -50, 0],
-                        scale: [1, 1.2, 1]
+                        x: mousePosition.x * 0.02,
+                        y: mousePosition.y * 0.02,
                     }}
-                    transition={{
-                        duration: 15,
-                        repeat: Infinity,
-                        repeatType: "mirror",
-                        // ease removed
-                    }}
-                    className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] bg-yellow-600/10 rounded-full blur-[120px]"
+                    transition={{ type: "spring", damping: 50, stiffness: 400 }}
+                    className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] bg-yellow-600/20 rounded-full blur-[120px] mix-blend-screen"
                 />
 
                 <motion.div
                     animate={{
-                        x: [0, -100, 0],
-                        y: [0, 50, 0],
-                        scale: [1, 1.3, 1]
+                        x: mousePosition.x * -0.03,
+                        y: mousePosition.y * -0.03,
                     }}
-                    transition={{
-                        duration: 18,
-                        repeat: Infinity,
-                        repeatType: "mirror",
-                        // ease removed
-                    }}
-                    className="absolute -bottom-[20%] -right-[10%] w-[80vw] h-[80vw] bg-slate-800/20 rounded-full blur-[120px]"
+                    transition={{ type: "spring", damping: 40, stiffness: 300 }}
+                    className="absolute -bottom-[20%] -right-[10%] w-[80vw] h-[80vw] bg-slate-800/30 rounded-full blur-[120px] mix-blend-screen"
                 />
 
                 <motion.div
                     animate={{
-                        scale: [1, 1.5, 1],
-                        opacity: [0.3, 0.6, 0.3]
+                        x: mousePosition.x * 0.05,
+                        y: mousePosition.y * 0.05,
+                        scale: [1, 1.1, 1],
                     }}
                     transition={{
-                        duration: 12,
-                        repeat: Infinity,
-                        repeatType: "mirror",
-                        // ease removed
+                        scale: { duration: 10, repeat: Infinity, repeatType: "mirror" },
+                        x: { type: "spring", damping: 30, stiffness: 200 },
+                        y: { type: "spring", damping: 30, stiffness: 200 }
                     }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] bg-white/5 rounded-full blur-[150px]"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] bg-white/5 rounded-full blur-[150px] mix-blend-overlay"
                 />
 
                 <div className="absolute inset-0 bg-[#050505]/40 z-0" />
