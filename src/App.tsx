@@ -11,7 +11,7 @@ import Showroom from './pages/Showroom';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import ProductDetails from './pages/ProductDetails';
-import FooterSection from './components/FooterSection';
+import GrandRevealFooter from './components/GrandRevealFooter';
 import WhatsAppButton from './components/WhatsAppButton';
 
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: Error | null }> {
@@ -67,7 +67,7 @@ function App() {
         <AmbientLight />
         <Navbar />
 
-        <main className="min-h-screen relative z-10 flex flex-col gap-0 bg-transparent">
+        <main className="min-h-screen relative z-10 flex flex-col gap-0 bg-transparent mb-[80vh] shadow-2xl">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/showroom" element={<Showroom />} />
@@ -76,9 +76,10 @@ function App() {
             <Route path="/product/:id" element={<ProductDetails />} />
           </Routes>
         </main>
-        <section id="contact" className="relative z-20">
-          <FooterSection />
-        </section>
+
+        {/* Fixed Footer Reveal (Z-0) */}
+        <GrandRevealFooter />
+
         <WhatsAppButton />
       </Router>
     </ErrorBoundary>
