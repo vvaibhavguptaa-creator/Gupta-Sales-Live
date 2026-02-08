@@ -1,6 +1,7 @@
 import Hero from '../components/Hero';
 import BrandTicker from '../components/BrandTicker';
 import ProductCategories from '../components/ProductCategories';
+import Scrollytelling from '../components/Scrollytelling';
 import Manifesto from '../components/Manifesto';
 import ProductShowcase from '../components/ProductShowcase';
 import Services from '../components/Services';
@@ -23,7 +24,12 @@ const Home = () => {
                 <ProductCategories />
             </div>
 
-            {/* Section 3: Legacy/Manifesto (Slides Over) */}
+            {/* Section 3: Scrollytelling Feature (Apple Style) */}
+            <div className="relative z-18">
+                <Scrollytelling />
+            </div>
+
+            {/* Section 4: Legacy/Manifesto (Slides Over) */}
             <section id="legacy" className="relative z-20 bg-black shadow-2xl shadow-black">
                 <Manifesto />
             </section>
