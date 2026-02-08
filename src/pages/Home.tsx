@@ -2,6 +2,7 @@ import Hero from '../components/Hero';
 import BrandTicker from '../components/BrandTicker';
 import ProductCategories from '../components/ProductCategories';
 import Scrollytelling from '../components/Scrollytelling';
+import LifestyleGallery from '../components/LifestyleGallery';
 import Manifesto from '../components/Manifesto';
 import ProductShowcase from '../components/ProductShowcase';
 import Services from '../components/Services';
@@ -29,8 +30,13 @@ const Home = () => {
                 <Scrollytelling />
             </div>
 
-            {/* Section 4: Legacy/Manifesto (Slides Over) */}
-            <section id="legacy" className="relative z-20 bg-black shadow-2xl shadow-black">
+            {/* Section 4: Lifestyle Gallery (Overlap) */}
+            <div className="relative z-20">
+                <LifestyleGallery />
+            </div>
+
+            {/* Section 5: Legacy/Manifesto (Slides Over) */}
+            <section id="legacy" className="relative z-25 bg-black shadow-2xl shadow-black">
                 <Manifesto />
             </section>
 

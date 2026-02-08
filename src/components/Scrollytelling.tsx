@@ -10,9 +10,15 @@ const Scrollytelling = () => {
     });
 
     // Physics Mappings
-    const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
-    const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 0.8]);
-    const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+    // Rotation: 0% to 70% of scroll
+    const rotate = useTransform(scrollYProgress, [0, 0.7], [0, 360]);
+
+    // Scale: Grow then Shrink to Exit
+    const scale = useTransform(scrollYProgress, [0, 0.4, 0.7, 1], [0.8, 1.2, 1.2, 0.8]);
+
+    // Opacity: Fade out at the end
+    const opacity = useTransform(scrollYProgress, [0.7, 1], [1, 0]);
+
     const x = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]); // Slight parallax movement
 
     // Background Color Morph (White -> Soft Blue -> White)
@@ -22,10 +28,10 @@ const Scrollytelling = () => {
         ["#FFFFFF", "#E0F2FE", "#FFFFFF"]
     );
 
-    // Text Opacities for the "Story"
-    const text1Opacity = useTransform(scrollYProgress, [0.1, 0.3, 0.4], [0, 1, 0]);
-    const text2Opacity = useTransform(scrollYProgress, [0.4, 0.6, 0.7], [0, 1, 0]);
-    const text3Opacity = useTransform(scrollYProgress, [0.7, 0.9, 1.0], [0, 1, 0]);
+    // Text Opacities for the "Story" - Should finish by 0.9
+    const text1Opacity = useTransform(scrollYProgress, [0.1, 0.3, 0.35], [0, 1, 0]);
+    const text2Opacity = useTransform(scrollYProgress, [0.4, 0.6, 0.65], [0, 1, 0]);
+    const text3Opacity = useTransform(scrollYProgress, [0.7, 0.85, 0.9], [0, 1, 0]);
 
     return (
         <motion.section
