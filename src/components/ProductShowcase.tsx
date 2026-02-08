@@ -63,11 +63,11 @@ const ProductShowcase = () => {
         offset: ["start start", "end end"]
     });
 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85vw"]);
     const smoothX = useSpring(x, { stiffness: 100, damping: 20 });
 
     return (
-        <section ref={targetRef} className="relative h-[200vh] bg-black">
+        <section ref={targetRef} className="relative h-[150vh] bg-black">
             <div className="sticky top-0 h-screen flex items-center overflow-hidden">
 
                 {/* Section Title */}
@@ -78,7 +78,7 @@ const ProductShowcase = () => {
 
                 <motion.div
                     style={{ x: smoothX }}
-                    className="flex gap-12 pl-[10vw] pr-[10vw]"
+                    className="flex gap-12 pl-[10vw] w-max"
                 >
                     {items.map((item) => (
                         <ProductCard key={item.id} item={item} />
