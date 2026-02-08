@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Spotlight from './components/Spotlight';
 import SmoothScroll from './components/SmoothScroll';
 import ScrollToTop from './components/ScrollToTop';
+import FilmGrain from './components/FilmGrain';
 import Home from './pages/Home';
 import Showroom from './pages/Showroom';
 import About from './pages/About';
@@ -51,6 +52,7 @@ function App() {
       <Router>
         <SmoothScroll />
         <ScrollToTop />
+        <FilmGrain />
         <Spotlight />
         <Navbar />
 

@@ -27,12 +27,12 @@ const BrandTicker = () => {
                     x: "-50%",
                 }}
                 transition={{
-                    duration: 30, // Slow, premium speed
+                    duration: 40, // Slower, more elegant speed
                     repeat: Infinity,
                     ease: "linear",
                 }}
                 style={{
-                    width: "fit-content", // Ensure container fits duplicates
+                    width: "fit-content",
                 }}
             >
                 {/* First Set */}

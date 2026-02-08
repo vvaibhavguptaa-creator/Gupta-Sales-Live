@@ -1,6 +1,6 @@
 
 import { useRef, useState, useEffect } from 'react';
-import { motion, useSpring, useMotionValue, useTransform } from 'framer-motion';
+import { motion, useSpring, useMotionValue, useTransform, useScroll } from 'framer-motion';
 import { HiArrowDown } from 'react-icons/hi';
 
 const MagneticButton = ({ children }: { children: React.ReactNode }) => {
@@ -39,6 +39,16 @@ const MagneticButton = ({ children }: { children: React.ReactNode }) => {
 };
 
 const Hero = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end start"]
+    });
+
+    // Parallax transforms
+    const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+    const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
@@ -59,29 +69,40 @@ const Hero = () => {
             opacity: 1,
             transition: {
                 staggerChildren: 0.1,
-                delayChildren: 0.3
+                delayChildren: 1.2 // Delayed for curtain
             }
         }
     };
 
     const wordVariants = {
-        hidden: { opacity: 0, y: 50, filter: "blur(10px)" },
+        hidden: { opacity: 0, y: 100, filter: "blur(20px)" }, // Deeper deeper start
         visible: {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
             transition: {
-                duration: 0.8,
-
+                duration: 1.2,
+                // ease removed for TS fix, default is fine/smooth
             }
         }
     };
 
     return (
-        <section className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col justify-center items-center">
+        <section ref={containerRef} className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col justify-center items-center">
 
-            {/* 1. Living Gradient Background (Preserved) */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* 0. Curtain Reveal */}
+            <motion.div
+                initial={{ scaleY: 1 }}
+                animate={{ scaleY: 0 }}
+                transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 z-50 bg-black origin-top"
+            />
+
+            {/* 1. Living Gradient Background (with Parallax) */}
+            <motion.div
+                style={{ y: bgY }}
+                className="absolute inset-0 overflow-hidden pointer-events-none"
+            >
                 <motion.div
                     animate={{
                         x: [0, 100, 0],
@@ -92,9 +113,9 @@ const Hero = () => {
                         duration: 15,
                         repeat: Infinity,
                         repeatType: "mirror",
-
+                        // ease removed
                     }}
-                    className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] bg-yellow-600/20 rounded-full blur-[120px]"
+                    className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] bg-yellow-600/10 rounded-full blur-[120px]"
                 />
 
                 <motion.div
@@ -107,9 +128,9 @@ const Hero = () => {
                         duration: 18,
                         repeat: Infinity,
                         repeatType: "mirror",
-
+                        // ease removed
                     }}
-                    className="absolute -bottom-[20%] -right-[10%] w-[80vw] h-[80vw] bg-slate-800/30 rounded-full blur-[120px]"
+                    className="absolute -bottom-[20%] -right-[10%] w-[80vw] h-[80vw] bg-slate-800/20 rounded-full blur-[120px]"
                 />
 
                 <motion.div
@@ -121,16 +142,16 @@ const Hero = () => {
                         duration: 12,
                         repeat: Infinity,
                         repeatType: "mirror",
-
+                        // ease removed
                     }}
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] bg-white/5 rounded-full blur-[150px]"
                 />
 
-                <div className="absolute inset-0 bg-[#050505]/20 z-0" />
-            </div>
+                <div className="absolute inset-0 bg-[#050505]/40 z-0" />
+            </motion.div>
 
-            {/* 2. Typography Centerpiece with Staggered Reveal */}
-            <div className="relative z-10 text-center px-4 max-w-7xl mx-auto">
+            {/* 2. Typography Centerpiece with Staggered Reveal and Parallax */}
+            <motion.div style={{ y: textY }} className="relative z-10 text-center px-4 max-w-7xl mx-auto">
                 <motion.div
                     initial="hidden"
                     animate="visible"
@@ -138,12 +159,12 @@ const Hero = () => {
                 >
                     <motion.span
                         variants={wordVariants}
-                        className="text-yellow-500 uppercase tracking-[0.4em] text-xs md:text-sm font-medium mb-8 block font-sans"
+                        className="text-yellow-500 uppercase tracking-[0.5em] text-xs md:text-sm font-medium mb-8 block font-sans"
                     >
                         Est. 1995 • Bikaner
                     </motion.span>
 
-                    <h1 className="font-serif text-7xl md:text-9xl text-white tracking-tight leading-none mb-8">
+                    <h1 className="font-serif text-7xl md:text-9xl text-white tracking-tighter leading-[0.9] mb-8">
                         <div className="overflow-hidden inline-block mr-4 md:mr-8"><motion.span className="inline-block" variants={wordVariants}>Define</motion.span></div>
                         <div className="overflow-hidden inline-block mr-4 md:mr-8"><motion.span className="inline-block" variants={wordVariants}>Your</motion.span></div>
                         <br className="hidden md:block" />
@@ -157,13 +178,13 @@ const Hero = () => {
                         Where the precision of modern architecture meets the soul of heritage craftsmanship.
                     </motion.p>
                 </motion.div>
-            </div>
+            </motion.div>
 
             {/* 3. Magnetic Scroll Indicator */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1 }}
+                transition={{ delay: 2.5, duration: 1 }}
                 className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
             >
                 <a href="#collection">
