@@ -72,7 +72,7 @@ const Hero = () => {
             filter: "blur(0px)",
             transition: {
                 duration: 0.8,
-                ease: "easeInOut"
+
             }
         }
     };
@@ -92,7 +92,7 @@ const Hero = () => {
                         duration: 15,
                         repeat: Infinity,
                         repeatType: "mirror",
-                        ease: "easeInOut"
+
                     }}
                     className="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] bg-yellow-600/20 rounded-full blur-[120px]"
                 />
@@ -107,7 +107,7 @@ const Hero = () => {
                         duration: 18,
                         repeat: Infinity,
                         repeatType: "mirror",
-                        ease: "easeInOut"
+
                     }}
                     className="absolute -bottom-[20%] -right-[10%] w-[80vw] h-[80vw] bg-slate-800/30 rounded-full blur-[120px]"
                 />
@@ -121,7 +121,7 @@ const Hero = () => {
                         duration: 12,
                         repeat: Infinity,
                         repeatType: "mirror",
-                        ease: "easeInOut"
+
                     }}
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] bg-white/5 rounded-full blur-[150px]"
                 />
