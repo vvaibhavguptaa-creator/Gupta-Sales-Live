@@ -26,12 +26,12 @@ const Navbar = () => {
         visible: {
             opacity: 1,
             scale: 1,
-            transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
+            transition: { duration: 0.4, ease: "easeInOut" }
         },
         exit: {
             opacity: 0,
             scale: 0.95,
-            transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
+            transition: { duration: 0.3, ease: "easeInOut" }
         }
     };
 
@@ -43,7 +43,7 @@ const Navbar = () => {
             transition: {
                 delay: 0.1 * i + 0.2,
                 duration: 0.6,
-                ease: [0.22, 1, 0.36, 1]
+                ease: "easeInOut"
             }
         })
     };
