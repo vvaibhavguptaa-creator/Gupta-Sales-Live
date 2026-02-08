@@ -1,105 +1,116 @@
-
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 const Scrollytelling = () => {
-    const targetRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
-        target: targetRef,
+        target: containerRef,
         offset: ["start end", "end start"]
     });
 
-    // Physics Mappings
-    // Rotation: 0% to 70% of scroll
-    const rotate = useTransform(scrollYProgress, [0, 0.7], [0, 360]);
+    // --- PHYSICS ENGINE --- //
 
-    // Scale: Grow then Shrink to Exit
-    const scale = useTransform(scrollYProgress, [0, 0.4, 0.7, 1], [0.8, 1.2, 1.2, 0.8]);
+    // Rotation: Smooth 180 degree turn.
+    // Map [0, 1] -> [0deg, 180deg]
+    const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
 
-    // Opacity: Fade out at the end
-    const opacity = useTransform(scrollYProgress, [0.7, 1], [1, 0]);
+    // Scale: Breathes (In -> Out -> In)
+    // Map [0, 0.5, 1] -> [0.8, 1.1, 0.9]
+    const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.1, 0.9]);
 
-    const x = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]); // Slight parallax movement
+    // Opacity: Stays visible until the very end, then quick fade
+    const opacity = useTransform(scrollYProgress, [0.9, 1], [1, 0]);
 
-    // Background Color Morph (White -> Soft Blue -> White)
-    const backgroundColor = useTransform(
-        scrollYProgress,
-        [0, 0.5, 1],
-        ["#FFFFFF", "#E0F2FE", "#FFFFFF"]
-    );
+    // --- TEXT SEQUENCER --- //
 
-    // Text Opacities for the "Story" - Should finish by 0.9
-    const text1Opacity = useTransform(scrollYProgress, [0.1, 0.3, 0.35], [0, 1, 0]);
-    const text2Opacity = useTransform(scrollYProgress, [0.4, 0.6, 0.65], [0, 1, 0]);
-    const text3Opacity = useTransform(scrollYProgress, [0.7, 0.85, 0.9], [0, 1, 0]);
+    // Text 1: "Precision" (Starts visible, fades out by 30%)
+    const text1Opacity = useTransform(scrollYProgress, [0.1, 0.25], [1, 0]);
+    const text1Y = useTransform(scrollYProgress, [0.1, 0.25], [0, -20]);
+
+    // Text 2: "Flow" (Fades in at 30%, out by 60%)
+    const text2Opacity = useTransform(scrollYProgress, [0.3, 0.45, 0.6], [0, 1, 0]);
+    const text2Y = useTransform(scrollYProgress, [0.3, 0.45, 0.6], [20, 0, -20]);
+
+    // Text 3: "Silence" (Fades in at 65%, stays)
+    const text3Opacity = useTransform(scrollYProgress, [0.65, 0.8], [0, 1]);
+    const text3Y = useTransform(scrollYProgress, [0.65, 0.8], [20, 0]);
+
 
     return (
-        <motion.section
-            ref={targetRef}
-            style={{ backgroundColor }}
-            className="relative h-[300vh] z-20"
-        >
-            <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center items-center">
+        <div ref={containerRef} className="relative h-[200vh] z-10 bg-[#F5F7FA]">
 
-                {/* 1. Deep Background Text (Depth Layer) */}
-                <motion.div
-                    style={{ x }}
-                    className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
-                >
-                    <h1 className="text-[20vw] font-bold text-black/5 whitespace-nowrap select-none">
-                        100% BRASS
-                    </h1>
-                </motion.div>
+            <div className="sticky top-0 h-screen overflow-hidden flex flex-col md:flex-row items-center justify-center">
 
-                {/* 2. The Hero Product (Fixed Center) */}
-                <motion.div
-                    style={{ rotate, scale, opacity }}
-                    className="relative z-10 w-[60vw] md:w-[30vw] aspect-square flex items-center justify-center"
-                >
-                    {/* Dynamic Shadow */}
+                {/* Background: Pulsing Radial Gradient */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-[#E0F2FE]/30 to-[#F5F7FA] pointer-events-none" />
+
+                {/* LEFT SIDE: Text Carousel */}
+                <div className="relative w-full md:w-1/2 h-full flex items-center justify-center pointer-events-none z-20">
+
+                    {/* Text Block 1 */}
                     <motion.div
-                        className="absolute bottom-0 w-full h-[20%] bg-black/20 blur-2xl rounded-[100%]"
-                        style={{ x: useTransform(rotate, [0, 360], [20, -20]) }}
-                    />
-
-                    {/* Product Image */}
-                    <img
-                        src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
-                        alt="Scrollytelling Product"
-                        className="w-full h-full object-contain drop-shadow-2xl"
-                    />
-                </motion.div>
-
-                {/* 3. Overlay Text Stories (Fade In/Out) */}
-                <div className="absolute inset-0 pointer-events-none z-20 flex flex-col justify-center items-center">
-
-                    {/* Story 1 */}
-                    <motion.div style={{ opacity: text1Opacity }} className="absolute text-center bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl">
-                        <h3 className="text-4xl font-semibold text-[#1D1D1F] mb-4">Precision Engineering</h3>
-                        <p className="text-lg text-[#1D1D1F]/70 max-w-md">
-                            Crafted with aerospace-grade tolerances for a leak-proof lifetime.
+                        style={{ opacity: text1Opacity, y: text1Y }}
+                        className="absolute text-center md:text-left px-8"
+                    >
+                        <h3 className="text-[#1D1D1F] text-5xl md:text-7xl font-semibold tracking-tight mb-4">Precision.</h3>
+                        <p className="text-[#1D1D1F]/60 text-xl font-medium max-w-sm">
+                            Aerospace-grade brass. <br /> Zero tolerance for error.
                         </p>
                     </motion.div>
 
-                    {/* Story 2 */}
-                    <motion.div style={{ opacity: text2Opacity }} className="absolute text-center bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl translate-y-32">
-                        <h3 className="text-4xl font-semibold text-[#1D1D1F] mb-4">Eco-Flow Technology</h3>
-                        <p className="text-lg text-[#1D1D1F]/70 max-w-md">
-                            Saves 40% more water without compromising pressure.
+                    {/* Text Block 2 */}
+                    <motion.div
+                        style={{ opacity: text2Opacity, y: text2Y }}
+                        className="absolute text-center md:text-left px-8"
+                    >
+                        <h3 className="text-[#1D1D1F] text-5xl md:text-7xl font-semibold tracking-tight mb-4">Flow.</h3>
+                        <p className="text-[#1D1D1F]/60 text-xl font-medium max-w-sm">
+                            Engineered for perfect pressure. <br /> Even at low flow.
                         </p>
                     </motion.div>
 
-                    {/* Story 3 */}
-                    <motion.div style={{ opacity: text3Opacity }} className="absolute text-center bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl -translate-y-32">
-                        <h3 className="text-4xl font-semibold text-[#1D1D1F] mb-4">Forever Finish</h3>
-                        <p className="text-lg text-[#1D1D1F]/70 max-w-md">
-                            PVD coating that resists scratches and tarnishing for 50 years.
+                    {/* Text Block 3 */}
+                    <motion.div
+                        style={{ opacity: text3Opacity, y: text3Y }}
+                        className="absolute text-center md:text-left px-8"
+                    >
+                        <h3 className="text-[#1D1D1F] text-5xl md:text-7xl font-semibold tracking-tight mb-4">Silence.</h3>
+                        <p className="text-[#1D1D1F]/60 text-xl font-medium max-w-sm">
+                            Whisper-quiet cartridges. <br /> The sound of luxury.
                         </p>
                     </motion.div>
 
                 </div>
+
+
+                {/* RIGHT SIDE: The Product */}
+                <motion.div
+                    style={{ opacity }}
+                    className="relative w-full md:w-1/2 h-[50vh] md:h-full flex items-center justify-center z-20"
+                >
+                    <motion.div
+                        style={{ rotate, scale }}
+                        className="relative w-[80%] max-w-[500px] aspect-square flex items-center justify-center"
+                    >
+                        {/* Dynamic Shadow */}
+                        <motion.div
+                            className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[60%] h-[10%] bg-black/20 blur-xl rounded-[100%]"
+                            style={{
+                                x: useTransform(rotate, [0, 180], [20, -20]),
+                                opacity: useTransform(scale, [0.8, 1.1, 0.9], [0.5, 0.8, 0.5])
+                            }}
+                        />
+
+                        <img
+                            src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
+                            alt="Precision Faucet"
+                            className="w-full h-full object-contain drop-shadow-2xl"
+                        />
+                    </motion.div>
+                </motion.div>
+
             </div>
-        </motion.section>
+        </div>
     );
 };
 
