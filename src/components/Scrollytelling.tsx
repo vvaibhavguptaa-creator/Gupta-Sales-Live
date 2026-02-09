@@ -1,97 +1,111 @@
-import { motion } from 'framer-motion';
+"use client";
 
-const panels = [
-    {
-        id: 1,
-        title: "Precision.",
-        description: "Every curve is calculated. Every angle is intentional. Designed for those who demand exactness in every drop.",
-        image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800",
-        align: "right" // Image Right, Text Left
-    },
-    {
-        id: 2,
-        title: "Flow.",
-        description: "Water should not just move; it should glide. Our aerators create a stream that feels like silk against the skin.",
-        image: "https://images.unsplash.com/photo-1556911220-e6584462aa3c?auto=format&fit=crop&q=80&w=800",
-        align: "left" // Image Left, Text Right
-    },
-    {
-        id: 3,
-        title: "Silence.",
-        description: "True luxury is quiet. Advanced valve technology ensures that the only sound you hear is the water itself.",
-        image: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&q=80&w=800",
-        align: "right"
-    },
-    {
-        id: 4,
-        title: "Perfection.",
-        description: "The result of 30 years of engineering. A bathroom fitting that stands the test of time and trends.",
-        image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=800",
-        align: "left"
-    }
-];
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const Scrollytelling = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"],
+    });
+
+    // --- Animation Logic for Content (0-100% of scroll) ---
+
+    // 1. Precision: 0% -> 25%
+    const opacityPrecision = useTransform(scrollYProgress, [0, 0.15, 0.25], [0, 1, 0]);
+    const yPrecision = useTransform(scrollYProgress, [0, 0.15, 0.25], [20, 0, -20]);
+
+    // 2. Flow: 25% -> 50%
+    const opacityFlow = useTransform(scrollYProgress, [0.25, 0.35, 0.50], [0, 1, 0]);
+    const yFlow = useTransform(scrollYProgress, [0.25, 0.35, 0.50], [20, 0, -20]);
+
+    // 3. Silence: 50% -> 75%
+    const opacitySilence = useTransform(scrollYProgress, [0.50, 0.60, 0.75], [0, 1, 0]);
+    const ySilence = useTransform(scrollYProgress, [0.50, 0.60, 0.75], [20, 0, -20]);
+
+    // 4. Perfection: 75% -> 100% (Stays visible at the end)
+    const opacityPerfection = useTransform(scrollYProgress, [0.75, 0.85], [0, 1]);
+    const yPerfection = useTransform(scrollYProgress, [0.75, 0.85], [20, 0]);
+
+    // --- Image Animation ---
+    // Continuous rotation and scale zoom as user scrolls the entire 300vh
+    const rotateImage = useTransform(scrollYProgress, [0, 1], [0, 15]);
+    const scaleImage = useTransform(scrollYProgress, [0, 1], [0.8, 1.2]);
+
+
+    const texts = [
+        { title: "Precision", body: "Every curve is calculated. Designed for those who demand exactness.", opacity: opacityPrecision, y: yPrecision },
+        { title: "Flow", body: "Water should not just move; it should glide like silk.", opacity: opacityFlow, y: yFlow },
+        { title: "Silence", body: "True luxury is quiet. Advanced technology ensures silence.", opacity: opacitySilence, y: ySilence },
+        { title: "Perfection", body: "The result of 30 years of engineering. Timeless.", opacity: opacityPerfection, y: yPerfection },
+    ];
+
     return (
-        <section className="bg-[#fafaf9] py-32 overflow-hidden">
-            <div className="container mx-auto px-6 md:px-12 flex flex-col gap-32 md:gap-48">
-                {panels.map((panel, index) => (
-                    <div
-                        key={panel.id}
-                        className={`flex flex-col md:flex-row items-center gap-12 md:gap-24 ${panel.align === 'left' ? 'md:flex-row-reverse' : ''}`}
-                    >
+        <section className="bg-stone-50">
 
-                        {/* Text Side */}
-                        <div className="flex-1 text-center md:text-left">
-                            <motion.span
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                viewport={{ once: true }}
-                                className="block text-9xl md:text-[12rem] font-bold text-stone-200 leading-none mb-6 select-none"
-                            >
-                                0{panel.id}
-                            </motion.span>
-                            <motion.h2
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8 }}
-                                className="text-5xl md:text-8xl font-serif text-[#1c1917] mb-8"
-                            >
-                                {panel.title}
-                            </motion.h2>
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, delay: 0.2 }}
-                                className="text-xl md:text-2xl font-light text-[#44403c] leading-relaxed max-w-xl mx-auto md:mx-0"
-                            >
-                                {panel.description}
-                            </motion.p>
-                        </div>
+            {/* --- DESKTOP: STICKY SCROLLYTELLING (md:block) --- */}
+            <div ref={containerRef} className="hidden md:block relative h-[300vh]">
 
-                        {/* Image Side */}
-                        <div className="flex-1 w-full">
+                {/* Sticky Wrapper: Pins to top for the duration of the scroll */}
+                <div className="sticky top-0 h-screen flex flex-row items-center justify-between overflow-hidden px-10 max-w-[1600px] mx-auto">
+
+                    {/* LEFT COLUMN: Text Blocks (Stacked Absolute) */}
+                    <div className="w-1/2 relative h-full flex flex-col justify-center px-12">
+                        {texts.map((item, index) => (
                             <motion.div
-                                initial={{ scale: 0.95, opacity: 0 }}
-                                whileInView={{ scale: 1, opacity: 1 }}
-                                viewport={{ once: true, margin: "-100px" }}
-                                transition={{ duration: 1 }}
-                                className="relative aspect-[3/4] md:aspect-square rounded-[3rem] overflow-hidden shadow-2xl"
+                                key={index}
+                                style={{ opacity: item.opacity, y: item.y }}
+                                className="absolute top-1/2 -translate-y-1/2 left-12 max-w-lg"
                             >
-                                <img
-                                    src={panel.image}
-                                    alt={panel.title}
-                                    className="w-full h-full object-cover"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+                                <h2 className="text-6xl lg:text-8xl font-serif text-stone-900 mb-6 tracking-tight">
+                                    {item.title}.
+                                </h2>
+                                <p className="text-xl text-stone-600 font-light leading-relaxed">
+                                    {item.body}
+                                </p>
                             </motion.div>
-                        </div>
+                        ))}
+                    </div>
 
+                    {/* RIGHT COLUMN: The Image (Pinned & Animated) */}
+                    <div className="w-1/2 h-[80vh] relative flex items-center justify-center">
+                        <motion.div
+                            style={{ rotate: rotateImage, scale: scaleImage }}
+                            className="relative w-full h-full max-w-xl max-h-[800px] shadow-2xl rounded-[3rem] overflow-hidden border border-stone-200"
+                        >
+                            <img
+                                src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
+                                alt="Luxury Faucet"
+                                className="w-full h-full object-cover"
+                            />
+                            {/* Cinematic Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent mix-blend-multiply" />
+                        </motion.div>
+                    </div>
+
+                </div>
+            </div>
+
+            {/* --- MOBILE: STANDARD VERTICAL STACK (< md) --- */}
+            <div className="md:hidden flex flex-col gap-24 py-24 px-6">
+                {texts.map((item, index) => (
+                    <div key={index} className="flex flex-col gap-6">
+                        <div className="relative aspect-[4/5] w-full rounded-3xl overflow-hidden shadow-lg mb-4">
+                            <img
+                                src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
+                                alt={item.title}
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        <div>
+                            <h2 className="text-5xl font-serif text-stone-900 mb-4">{item.title}.</h2>
+                            <p className="text-lg text-stone-600 font-light">{item.body}</p>
+                        </div>
                     </div>
                 ))}
             </div>
+
         </section>
     );
 };
