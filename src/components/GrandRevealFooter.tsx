@@ -1,6 +1,8 @@
+"use client";
+
 import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { ArrowUp, Instagram, MessageCircle } from 'lucide-react';
+// import { ArrowUp, Instagram, MessageCircle } from 'lucide-react'; // Removed lucide-react
 
 const MagneticButton = ({ children }: { children: React.ReactNode }) => {
     const ref = useRef<HTMLButtonElement>(null);
@@ -94,7 +96,12 @@ const GrandRevealFooter = () => {
                     <ul className="space-y-4">
                         <li>
                             <a href="#" className="flex items-center gap-2 text-white/80 hover:text-[#F59E0B] transition-colors group">
-                                <Instagram className="w-4 h-4" />
+                                {/* Instagram SVG */}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                </svg>
                                 <span className="relative">
                                     Instagram
                                     <span className="absolute left-0 bottom-0 w-0 h-px bg-[#F59E0B] transition-all duration-300 group-hover:w-full" />
@@ -103,7 +110,10 @@ const GrandRevealFooter = () => {
                         </li>
                         <li>
                             <a href="#" className="flex items-center gap-2 text-white/80 hover:text-[#25D366] transition-colors group">
-                                <MessageCircle className="w-4 h-4" />
+                                {/* MessageCircle (WhatsApp like) SVG */}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                                </svg>
                                 <span className="relative">
                                     WhatsApp
                                     <span className="absolute left-0 bottom-0 w-0 h-px bg-[#25D366] transition-all duration-300 group-hover:w-full" />
@@ -135,7 +145,11 @@ const GrandRevealFooter = () => {
                         className="group flex flex-col items-center gap-2 text-white/60 hover:text-[#F59E0B] transition-colors"
                     >
                         <span className="p-4 border border-white/20 rounded-full group-hover:border-[#F59E0B] transition-colors">
-                            <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
+                            {/* ArrowUp SVG */}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 group-hover:-translate-y-1 transition-transform">
+                                <line x1="12" y1="19" x2="12" y2="5"></line>
+                                <polyline points="5 12 12 5 19 12"></polyline>
+                            </svg>
                         </span>
                         <span className="text-xs uppercase tracking-widest">Back to Top</span>
                     </button>

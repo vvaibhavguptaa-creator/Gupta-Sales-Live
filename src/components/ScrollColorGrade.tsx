@@ -1,4 +1,6 @@
 
+"use client";
+
 import { useScroll, useTransform, motion } from 'framer-motion';
 
 const ScrollColorGrade = () => {
