@@ -10,94 +10,105 @@ const Scrollytelling = () => {
         offset: ["start start", "end end"],
     });
 
-    // --- Animation Logic for Content (0-100% of scroll) ---
+    const texts = [
+        {
+            title: "Precision",
+            body: "Every curve is calculated. Designed for those who demand exactness in every drop.",
+            image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
+        },
+        {
+            title: "Flow",
+            body: "Water should not just move; it should glide. Our aerators create a stream that feels like silk.",
+            image: "https://images.unsplash.com/photo-1556911220-e6584462aa3c?auto=format&fit=crop&q=80&w=800"
+        },
+        {
+            title: "Silence",
+            body: "True luxury is quiet. Advanced valve technology ensures that the only sound you hear is the water itself.",
+            image: "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&q=80&w=800"
+        },
+        {
+            title: "Perfection",
+            body: "The result of 30 years of engineering. A bathroom fitting that stands the test of time and trends.",
+            image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=800"
+        },
+    ];
 
-    // 1. Precision: Visible initially -> Fades out by 20%
-    const opacityPrecision = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-    const yPrecision = useTransform(scrollYProgress, [0, 0.2], [0, -20]);
-
-    // 2. Flow: Fades in 15-25% -> Fades out 45-55%
-    const opacityFlow = useTransform(scrollYProgress, [0.15, 0.25, 0.45, 0.55], [0, 1, 1, 0]);
-    const yFlow = useTransform(scrollYProgress, [0.15, 0.25, 0.45, 0.55], [20, 0, 0, -20]);
-
-    // 3. Silence: Fades in 45-55% -> Fades out 75-85%
-    const opacitySilence = useTransform(scrollYProgress, [0.45, 0.55, 0.75, 0.85], [0, 1, 1, 0]);
-    const ySilence = useTransform(scrollYProgress, [0.45, 0.55, 0.75, 0.85], [20, 0, 0, -20]);
-
-    // 4. Perfection: Fades in 75-85% -> Stays
-    const opacityPerfection = useTransform(scrollYProgress, [0.75, 0.85], [0, 1]);
-    const yPerfection = useTransform(scrollYProgress, [0.75, 0.85], [20, 0]);
-
-    // --- Image Animation ---
+    // --- Image Animation Logic ---
+    // Instead of Opacity, use the scroll progress to rotate/scale the image subtly
+    // The image source could also crossfade if we wanted, but let's keep it pinned for now as "The Artifact"
     const rotateImage = useTransform(scrollYProgress, [0, 1], [0, 12]);
     const scaleImage = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1.1, 1.0]);
 
-
-    const texts = [
-        { title: "Precision", body: "Every curve is calculated. Designed for those who demand exactness.", opacity: opacityPrecision, y: yPrecision },
-        { title: "Flow", body: "Water should not just move; it should glide like silk.", opacity: opacityFlow, y: yFlow },
-        { title: "Silence", body: "True luxury is quiet. Advanced technology ensures silence.", opacity: opacitySilence, y: ySilence },
-        { title: "Perfection", body: "The result of 30 years of engineering. Timeless.", opacity: opacityPerfection, y: yPerfection },
-    ];
-
     return (
-        <section className="bg-stone-50">
+        <section className="bg-stone-50 relative z-10">
 
-            {/* --- DESKTOP: STICKY SCROLLYTELLING (md:block) --- */}
-            <div ref={containerRef} className="hidden md:block relative h-[300vh]">
+            {/* --- DESKTOP LAYOUT (md:flex) --- */}
+            {/* 
+                Structure:
+                - Container: Flex Row
+                - Left: Scrollable Column (Tall) containing Text Blocks
+                - Right: Sticky Column (Pinned) containing the Image
+            */}
+            <div ref={containerRef} className="hidden md:flex w-full max-w-[1600px] mx-auto relative">
 
-                {/* Sticky Wrapper: Pins to top for the duration of the scroll */}
-                <div className="sticky top-0 h-screen flex flex-row items-center justify-between overflow-hidden px-10 max-w-[1600px] mx-auto">
-
-                    {/* LEFT COLUMN: Text Blocks (Stacked Absolute) */}
-                    <div className="w-1/2 relative h-full flex flex-col justify-center px-12">
-                        {texts.map((item, index) => (
+                {/* LEFT COLUMN: Scrollable Text (Z-10) */}
+                <div className="w-1/2 flex flex-col relative z-20">
+                    {texts.map((item, index) => (
+                        <div key={index} className="h-screen flex flex-col justify-center px-12 md:px-24">
                             <motion.div
-                                key={index}
-                                style={{ opacity: item.opacity, y: item.y }}
-                                className="absolute top-1/2 -translate-y-1/2 left-12 max-w-lg"
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
+                                transition={{ duration: 0.8 }}
+                                className="max-w-lg"
                             >
-                                <h2 className="text-6xl lg:text-8xl font-serif text-stone-900 mb-6 tracking-tight">
+                                <span className="text-sm font-medium tracking-[0.2em] text-stone-400 uppercase mb-4 block">
+                                    Phase 0{index + 1}
+                                </span>
+                                <h2 className="text-6xl lg:text-7xl font-serif text-stone-900 mb-6 leading-[0.95] tracking-tight">
                                     {item.title}.
                                 </h2>
                                 <p className="text-xl text-stone-600 font-light leading-relaxed">
                                     {item.body}
                                 </p>
                             </motion.div>
-                        ))}
-                    </div>
-
-                    {/* RIGHT COLUMN: The Image (Pinned & Animated) */}
-                    <div className="w-1/2 h-[80vh] relative flex items-center justify-center">
-                        <motion.div
-                            style={{ rotate: rotateImage, scale: scaleImage }}
-                            className="relative w-full h-full max-w-xl max-h-[800px] shadow-2xl rounded-[3rem] overflow-hidden border border-stone-200"
-                        >
-                            <img
-                                src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
-                                alt="Luxury Faucet"
-                                className="w-full h-full object-cover"
-                            />
-                            {/* Cinematic Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent mix-blend-multiply" />
-                        </motion.div>
-                    </div>
-
+                        </div>
+                    ))}
                 </div>
+
+                {/* RIGHT COLUMN: Sticky Image (Z-0) */}
+                <div className="w-1/2 h-screen sticky top-0 flex items-center justify-center p-12">
+                    <motion.div
+                        style={{ rotate: rotateImage, scale: scaleImage }}
+                        className="relative w-full aspect-square max-w-xl shadow-2xl rounded-[3rem] overflow-hidden border border-stone-200 bg-white"
+                    >
+                        {/* We use the first image as the "Hero Product" for the sticky effect */}
+                        <img
+                            src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
+                            alt="Luxury Faucet"
+                            className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent mix-blend-multiply" />
+                    </motion.div>
+                </div>
+
             </div>
 
-            {/* --- MOBILE: STANDARD VERTICAL STACK (< md) --- */}
+            {/* --- MOBILE LAYOUT (< md) --- */}
             <div className="md:hidden flex flex-col gap-24 py-24 px-6">
                 {texts.map((item, index) => (
                     <div key={index} className="flex flex-col gap-6">
                         <div className="relative aspect-[4/5] w-full rounded-3xl overflow-hidden shadow-lg mb-4">
                             <img
-                                src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
+                                src={item.image}
                                 alt={item.title}
                                 className="w-full h-full object-cover"
                             />
                         </div>
                         <div>
+                            <span className="text-xs font-bold tracking-widest text-stone-400 uppercase mb-2 block">
+                                0{index + 1}
+                            </span>
                             <h2 className="text-5xl font-serif text-stone-900 mb-4">{item.title}.</h2>
                             <p className="text-lg text-stone-600 font-light">{item.body}</p>
                         </div>
