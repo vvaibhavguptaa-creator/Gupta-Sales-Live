@@ -72,6 +72,15 @@ const GalleryCard = ({ item }: { item: typeof projects[0] }) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
+    // Internal Parallax for Image
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start end", "end start"]
+    });
+    // The image moves slightly counter to scroll to create "window" effect
+    const yImage = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+    const scaleImage = useTransform(scrollYProgress, [0, 1], [1.1, 1.1]); // Keep scale > 1 to avoid edges
+
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const rect = ref.current?.getBoundingClientRect();
         if (rect) {
@@ -100,17 +109,20 @@ const GalleryCard = ({ item }: { item: typeof projects[0] }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ type: "spring", stiffness: 50, damping: 20 }}
-            className="group relative w-full mb-8 rounded-3xl overflow-hidden cursor-pointer"
+            className="group relative w-full mb-8 rounded-3xl overflow-hidden cursor-pointer aspect-[3/4] md:aspect-auto"
         >
             {/* Hover Scale & Bloom Wrapper */}
             <motion.div
-                className="relative w-full h-full transition-transform duration-700 group-hover:scale-105"
-                whileHover={{ boxShadow: "0px 20px 50px -10px rgba(6,182,212,0.3)" }} // Cyan bloom
+                className="relative w-full h-full overflow-hidden"
+                style={{ transformStyle: "preserve-3d" }}
+                whileHover={{ scale: 0.98 }}
             >
-                <img
+                {/* PARALLAX IMAGE */}
+                <motion.img
+                    style={{ y: yImage, scale: 1.15 }}
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                 />
 
