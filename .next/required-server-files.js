@@ -45,11 +45,7 @@ self.__SERVER_FILES_MANIFEST={
       "path": "/_next/image",
       "loader": "default",
       "loaderFile": "",
-      "domains": [
-        "images.unsplash.com",
-        "plus.unsplash.com",
-        "grainy-gradients.vercel.app"
-      ],
+      "domains": [],
       "disableStaticImages": false,
       "minimumCacheTTL": 14400,
       "formats": [
@@ -67,7 +63,20 @@ self.__SERVER_FILES_MANIFEST={
           "search": ""
         }
       ],
-      "remotePatterns": [],
+      "remotePatterns": [
+        {
+          "protocol": "https",
+          "hostname": "images.unsplash.com"
+        },
+        {
+          "protocol": "https",
+          "hostname": "plus.unsplash.com"
+        },
+        {
+          "protocol": "https",
+          "hostname": "grainy-gradients.vercel.app"
+        }
+      ],
       "qualities": [
         75
       ],
@@ -296,9 +305,6 @@ self.__SERVER_FILES_MANIFEST={
     "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.mjs",
-    "eslint": {
-      "ignoreDuringBuilds": true
-    },
     "turbopack": {
       "root": "C:\\Users\\vvaib\\OneDrive\\Desktop\\Gupta Sales Website"
     },
