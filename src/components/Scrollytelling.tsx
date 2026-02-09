@@ -12,26 +12,25 @@ const Scrollytelling = () => {
 
     // --- Animation Logic for Content (0-100% of scroll) ---
 
-    // 1. Precision: 0% -> 25%
-    const opacityPrecision = useTransform(scrollYProgress, [0, 0.15, 0.25], [0, 1, 0]);
-    const yPrecision = useTransform(scrollYProgress, [0, 0.15, 0.25], [20, 0, -20]);
+    // 1. Precision: Visible initially -> Fades out by 20%
+    const opacityPrecision = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+    const yPrecision = useTransform(scrollYProgress, [0, 0.2], [0, -20]);
 
-    // 2. Flow: 25% -> 50%
-    const opacityFlow = useTransform(scrollYProgress, [0.25, 0.35, 0.50], [0, 1, 0]);
-    const yFlow = useTransform(scrollYProgress, [0.25, 0.35, 0.50], [20, 0, -20]);
+    // 2. Flow: Fades in 15-25% -> Fades out 45-55%
+    const opacityFlow = useTransform(scrollYProgress, [0.15, 0.25, 0.45, 0.55], [0, 1, 1, 0]);
+    const yFlow = useTransform(scrollYProgress, [0.15, 0.25, 0.45, 0.55], [20, 0, 0, -20]);
 
-    // 3. Silence: 50% -> 75%
-    const opacitySilence = useTransform(scrollYProgress, [0.50, 0.60, 0.75], [0, 1, 0]);
-    const ySilence = useTransform(scrollYProgress, [0.50, 0.60, 0.75], [20, 0, -20]);
+    // 3. Silence: Fades in 45-55% -> Fades out 75-85%
+    const opacitySilence = useTransform(scrollYProgress, [0.45, 0.55, 0.75, 0.85], [0, 1, 1, 0]);
+    const ySilence = useTransform(scrollYProgress, [0.45, 0.55, 0.75, 0.85], [20, 0, 0, -20]);
 
-    // 4. Perfection: 75% -> 100% (Stays visible at the end)
+    // 4. Perfection: Fades in 75-85% -> Stays
     const opacityPerfection = useTransform(scrollYProgress, [0.75, 0.85], [0, 1]);
     const yPerfection = useTransform(scrollYProgress, [0.75, 0.85], [20, 0]);
 
     // --- Image Animation ---
-    // Continuous rotation and scale zoom as user scrolls the entire 300vh
-    const rotateImage = useTransform(scrollYProgress, [0, 1], [0, 15]);
-    const scaleImage = useTransform(scrollYProgress, [0, 1], [0.8, 1.2]);
+    const rotateImage = useTransform(scrollYProgress, [0, 1], [0, 12]);
+    const scaleImage = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1.1, 1.0]);
 
 
     const texts = [

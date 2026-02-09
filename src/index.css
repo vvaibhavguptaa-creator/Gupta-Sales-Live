@@ -15,10 +15,7 @@
     @apply bg-primary text-secondary font-sans antialiased tracking-tight;
     margin: 0;
     padding: 0;
-    overflow-x: clip;
-    /* Fixes sticky support while preventing scroll */
-    overflow-y: auto;
-    height: auto;
+    overflow-x: hidden;
   }
 }
 
