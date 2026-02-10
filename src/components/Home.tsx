@@ -2,8 +2,10 @@
 
 import Hero from './Hero';
 import BrandTicker from './BrandTicker';
-import ProductCategories from './ProductCategories';
+import ProductCollection from './ProductCollection';
+import HeritageSection from './HeritageSection';
 import Scrollytelling from './Scrollytelling';
+import MonumentalFooter from './MonumentalFooter';
 import LivingGallery from './LivingGallery';
 import BlueprintProcess from './BlueprintProcess';
 import Manifesto from './Manifesto';
@@ -23,12 +25,17 @@ const Home = () => {
                 <BrandTicker />
             </div>
 
-            {/* Section 2.5: Product Categories (Bento Grid) */}
+            {/* Section 3: Product Collection (Luminous Bento Grid) */}
             <div className="relative z-15">
-                <ProductCategories />
+                <ProductCollection />
             </div>
 
-            {/* Section 3: Scrollytelling Feature (Apple Style) */}
+            {/* Section 4: Heritage/Philosophy (Editorial Layout) */}
+            <div className="relative z-18 bg-white">
+                <HeritageSection />
+            </div>
+
+            {/* Section 5: Scrollytelling Feature (Apple Style) */}
             <div className="relative z-18">
                 <Scrollytelling />
             </div>
@@ -53,9 +60,9 @@ const Home = () => {
                 <ProductShowcase />
             </section>
 
-            {/* Section 8: Services (Slides Over Final) */}
-            <div className="relative z-50 bg-black shadow-[0_-50px_100px_rgba(0,0,0,1)]">
-                <Services />
+            {/* Section 5: The Monumental Footer (Teenage Engineering Style) */}
+            <div className="relative z-50">
+                <MonumentalFooter />
             </div>
         </div>
     );

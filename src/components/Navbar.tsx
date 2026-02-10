@@ -1,158 +1,130 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-// import { HiMenuAlt4, HiX } from 'react-icons/hi'; // Removed react-icons
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'; // Added hooks
 import Link from 'next/link';
+import { Menu, X } from 'lucide-react'; // Changed icons
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const { scrollY } = useScroll();
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        setIsScrolled(latest > 50);
+    });
 
     const navLinks = [
-        { name: 'COLLECTION', href: '/#collection' },
-        { name: 'LEGACY', href: '/#legacy' },
-        { name: 'SERVICES', href: '/#services' },
+        { name: 'Collection', href: '/#collection' },
+        { name: 'Heritage', href: '/#legacy' }, // Changed to match user request "Heritage"
+        { name: 'Projects', href: '/#projects' }, // Changed to "Projects"
     ];
 
     const menuVariants = {
-        hidden: { opacity: 0, scale: 0.95 },
+        hidden: { opacity: 0, y: -20 },
         visible: {
             opacity: 1,
-            scale: 1,
-            transition: { duration: 0.4 }
+            y: 0,
+            transition: { duration: 0.3, ease: "easeOut" }
         },
         exit: {
             opacity: 0,
-            scale: 0.95,
-            transition: { duration: 0.3 }
+            y: -20,
+            transition: { duration: 0.2, ease: "easeIn" }
         }
     };
 
-    const linkVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: (i: number) => ({
-            opacity: 1,
-            y: 0,
-            transition: {
-                delay: 0.1 * i + 0.2,
-                duration: 0.6,
-
-            }
-        })
-    };
-
     return (
-        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-6'
-            }`}>
-            <div className="container mx-auto px-6 flex justify-between items-center relative z-50">
-                {/* Logo */}
-                <Link href="/" className="text-2xl font-serif font-bold text-white tracking-tighter hover:opacity-80 transition-opacity">
-                    GUPTA SALES
-                </Link>
+        <motion.nav
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 transition-all duration-500 ${isScrolled
+                ? "py-4 bg-white/70 backdrop-blur-xl border-b border-white/10 shadow-sm"
+                : "py-6 bg-transparent"
+                }`}
+        >
+            {/* Logo */}
+            <Link href="/" className={`text-xl font-bold tracking-tighter uppercase transition-colors duration-500 ${isScrolled ? "text-black" : "text-black"}`}>
+                Gupta Sales.
+            </Link>
 
-                {/* Desktop Menu */}
-                <div className="hidden md:flex items-center space-x-12">
-                    {navLinks.map((item) => (
-                        <Link
-                            key={item.name}
-                            href={item.href}
-                            className="text-xs uppercase tracking-[0.2em] text-white/70 hover:text-white transition-colors relative group"
-                        >
-                            {item.name}
-                            <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-yellow-500 transition-all duration-300 group-hover:w-full" />
-                        </Link>
-                    ))}
-
-                    {/* Premium CTA Button */}
+            {/* Desktop Navigation */}
+            <div className={`hidden md:flex gap-12 text-sm font-medium tracking-widest uppercase transition-colors duration-500 ${isScrolled ? "text-black/80" : "text-black/60"}`}>
+                {navLinks.map((item) => (
                     <Link
-                        href="/contact"
-                        className="px-6 py-2.5 text-xs font-medium tracking-widest uppercase text-yellow-500 border border-yellow-500/30 hover:bg-yellow-500 hover:text-black transition-all duration-300 rounded-sm"
+                        key={item.name}
+                        href={item.href}
+                        className="hover:text-black hover:opacity-100 transition-all duration-300 relative group"
                     >
-                        Book Consultation
+                        {item.name}
+                        <span className="absolute -bottom-1 left-0 w-0 h-px bg-black transition-all duration-300 group-hover:w-full" />
                     </Link>
-                </div>
-
-                {/* Mobile Hamburger Button */}
-                <button
-                    onClick={() => setIsOpen(true)}
-                    className="md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors"
-                    aria-label="Open Menu"
-                >
-                    {/* SVG Menu Icon */}
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                    </svg>
-                </button>
+                ))}
             </div>
+
+            {/* Desktop CTA Button */}
+            <Link
+                href="/contact"
+                className="hidden md:block px-6 py-2.5 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase bg-black text-white hover:bg-neutral-800 transition-all hover:scale-105 active:scale-95"
+            >
+                Book Visit
+            </Link>
+
+            {/* Mobile Hamburger Button */}
+            <button
+                onClick={() => setIsOpen(true)}
+                className="md:hidden text-black p-2 hover:bg-black/5 rounded-full transition-colors"
+                aria-label="Open Menu"
+            >
+                <Menu className="w-6 h-6" />
+            </button>
 
             {/* Mobile Full Screen Menu Overlay */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        variants={menuVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center md:hidden"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center md:hidden"
                     >
-                        {/* Close Button stuck to top right */}
+                        {/* Close Button */}
                         <div className="absolute top-6 right-6">
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="text-white p-2 hover:bg-white/10 rounded-full transition-colors"
+                                className="text-black p-2 hover:bg-black/5 rounded-full transition-colors"
                                 aria-label="Close Menu"
                             >
-                                {/* SVG Close Icon */}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                                <X className="w-8 h-8" />
                             </button>
                         </div>
 
                         {/* Menu Links */}
-                        <div className="flex flex-col space-y-12 text-center">
-                            {navLinks.map((item, i) => (
-                                <motion.div
+                        <div className="flex flex-col space-y-8 text-center">
+                            {navLinks.map((item) => (
+                                <Link
                                     key={item.name}
-                                    custom={i}
-                                    variants={linkVariants}
+                                    href={item.href}
+                                    onClick={() => setIsOpen(false)}
+                                    className="text-3xl font-serif text-black hover:text-neutral-500 transition-colors tracking-tight"
                                 >
-                                    <Link
-                                        href={item.href}
-                                        onClick={() => setIsOpen(false)}
-                                        className="text-4xl font-serif text-white hover:text-yellow-500 transition-colors tracking-tight"
-                                    >
-                                        {item.name}
-                                    </Link>
-                                </motion.div>
+                                    {item.name}
+                                </Link>
                             ))}
 
-                            <motion.div
-                                custom={3}
-                                variants={linkVariants}
+                            <Link
+                                href="/contact"
+                                onClick={() => setIsOpen(false)}
+                                className="mt-8 px-8 py-3 text-sm font-medium tracking-widest uppercase bg-black text-white rounded-full inline-block"
                             >
-                                <Link
-                                    href="/contact"
-                                    onClick={() => setIsOpen(false)}
-                                    className="mt-8 px-8 py-3 text-sm font-medium tracking-widest uppercase text-yellow-500 border border-yellow-500/30 hover:bg-yellow-500 hover:text-black transition-all duration-300 inline-block"
-                                >
-                                    Book Consultation
-                                </Link>
-                            </motion.div>
+                                Book Visit
+                            </Link>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </nav>
+        </motion.nav>
     );
 };
 

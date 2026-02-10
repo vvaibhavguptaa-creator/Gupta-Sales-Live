@@ -49,7 +49,7 @@ const GrandRevealFooter = () => {
                         </h2>
 
                         <a
-                            href="mailto:consult@guptasales.com" // Update actual link
+                            href="#" // Update actual link
                             className="group relative px-12 py-4 bg-white text-black rounded-full font-semibold tracking-widest uppercase overflow-hidden hover:shadow-[0_4px_20px_rgba(255,255,255,0.2)] transition-shadow duration-300"
                         >
                             <span className="relative z-10">Let's Talk</span>
