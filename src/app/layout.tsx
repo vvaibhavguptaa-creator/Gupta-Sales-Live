@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import Navbar from "../components/Navbar";
 // import SmoothScroll from "../components/SmoothScroll";
 // import SmoothScroll from "../components/SmoothScroll";
-import GrandRevealFooter from "../components/GrandRevealFooter";
 import WhatsAppButton from "../components/WhatsAppButton";
 import AmbientLight from "../components/AmbientLight";
 // import FilmGrain from "../components/FilmGrain"; 
@@ -42,7 +41,6 @@ export default function RootLayout({
                 <main className="min-h-screen relative z-10 flex flex-col gap-0 bg-transparent mb-[80vh] shadow-2xl">
                     {children}
                 </main>
-                <GrandRevealFooter />
                 <WhatsAppButton />
             </body>
         </html>
